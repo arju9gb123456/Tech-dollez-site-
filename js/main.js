@@ -58,22 +58,24 @@
   const preBar = document.getElementById('preloaderBar');
   const preCount = document.getElementById('preloaderCount');
   let progress = 0;
+  // Don't wait for heavy assets (fonts, 3D) — the page is usable as soon as the DOM is ready.
+  // Wait at most ~350ms for web fonts so the intro text doesn't flash.
   let loaded = false;
-  window.addEventListener('load', () => { loaded = true; });
-  setTimeout(() => { loaded = true; }, 3500); // safety
+  const fontsReady = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
+  Promise.race([fontsReady, new Promise((r) => setTimeout(r, 350))]).then(() => { loaded = true; });
 
   const preTimer = setInterval(() => {
     const cap = loaded ? 100 : 88;
-    progress += Math.max(2.5, (cap - progress) * 0.14);
+    progress += Math.max(6, (cap - progress) * 0.25);
     if (progress > cap) progress = cap;
     const v = Math.round(progress);
     preBar.style.width = v + '%';
     preCount.textContent = v;
     if (v >= 100) {
       clearInterval(preTimer);
-      setTimeout(finishLoading, 250);
+      setTimeout(finishLoading, 80);
     }
-  }, reduced ? 10 : 40);
+  }, reduced ? 10 : 30);
 
   function finishLoading() {
     pre.classList.add('done');
@@ -318,6 +320,7 @@
     });
 
     window.addEventListener('load', () => ScrollTrigger.refresh());
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
   } else {
     // no GSAP or reduced motion: show final states
     document.querySelectorAll('.reveal-up').forEach((el) => { el.style.opacity = 1; el.style.transform = 'none'; });

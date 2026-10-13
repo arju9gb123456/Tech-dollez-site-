@@ -13,7 +13,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" /></noscript>
 
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/features.css" />
@@ -431,12 +435,13 @@
         <div class="section__head">
           <p class="eyebrow">Our Work</p>
           <h2 class="section__title">Real projects.<br><span class="grad-text">Real businesses.</span></h2>
-          <p class="section__desc">ERPs, hospital tools, college websites, apps — built and running for real people every day.</p>
+          <p class="section__desc">ERPs, hospital tools, college websites, apps — built and running for real people every day. Plus concept designs that show what we can build for you.</p>
         </div>
         <div class="work__filters" id="workFilters" role="tablist">
           <button type="button" class="active" data-f="all">All</button>
           <button type="button" data-f="web">Websites</button>
           <button type="button" data-f="software">Software &amp; ERP</button>
+          <button type="button" data-f="concept">Concepts</button>
           <button type="button" data-f="lab">Labs</button>
         </div>
         <div class="work__grid" id="workGrid"></div>
@@ -951,7 +956,7 @@
       <button class="modal__close" data-close aria-label="Close">✕</button>
       <div class="modal__thumb" id="mThumb"></div>
       <div class="modal__body">
-        <p class="eyebrow" id="mCat"></p>
+        <p class="modal__cat" id="mCat"></p>
         <h3 id="mTitle"></h3>
         <p class="modal__lead" id="mLead"></p>
         <div class="modal__cols">
@@ -1006,14 +1011,14 @@
     <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6zm5.4-7.3c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5c0-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg>
   </a>
 
-  <!-- ===== SCRIPTS ===== -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script src="js/hero3d.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/features.js"></script>
-  <script src="js/extras.js"></script>
+  <!-- ===== SCRIPTS (deferred — page paints first) ===== -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script defer src="js/main.js"></script>
+  <script defer src="js/features.js"></script>
+  <script defer src="js/extras.js"></script>
+  <!-- Three.js (600 KB) is loaded lazily by hero3d.js after the page is interactive -->
+  <script defer src="js/hero3d.js"></script>
 </body>
 </html>

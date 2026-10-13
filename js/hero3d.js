@@ -6,8 +6,7 @@
 (function () {
   const canvas = document.getElementById('heroCanvas');
   if (!canvas) return;
-
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
 
   function webglOK() {
     try {
@@ -15,14 +14,36 @@
       return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
     } catch (e) { return false; }
   }
-  if (typeof THREE === 'undefined' || !webglOK()) {
-    document.documentElement.classList.add('no-webgl');
-    return;
-  }
+  if (!webglOK()) { root.classList.add('no-webgl'); return; }
 
+  // Lazy-load Three.js (~600 KB) only after the page is already visible & interactive
+  const THREE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+  function loadThree() {
+    if (window.THREE) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const sc = document.createElement('script');
+      sc.src = THREE_URL; sc.async = true;
+      sc.onload = resolve; sc.onerror = reject;
+      document.head.appendChild(sc);
+    });
+  }
+  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
+  function start() {
+    idle(() => {
+      loadThree()
+        .then(() => { init(); root.classList.add('webgl-ready'); })
+        .catch(() => root.classList.add('no-webgl'));
+    }, { timeout: 1200 });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 250));
+  else setTimeout(start, 250);
+
+  function init() {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile = window.innerWidth < 768;
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+  const lowPower = isMobile || (navigator.hardwareConcurrency || 8) <= 4;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: !lowPower, alpha: true, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, lowPower ? 1.25 : 1.75));
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
@@ -121,7 +142,7 @@
       }`
   });
 
-  const orbGeo = new THREE.IcosahedronGeometry(1.3, isMobile ? 28 : 56);
+  const orbGeo = new THREE.IcosahedronGeometry(1.3, lowPower ? 22 : 40);
   const orb = new THREE.Mesh(orbGeo, orbMat);
 
   /* ---------- Wire halo ring ---------- */
@@ -133,7 +154,7 @@
   ring2.rotation.set(Math.PI / 1.8, 0.4, 0);
 
   /* ---------- Particles ---------- */
-  const COUNT = isMobile ? 700 : 1600;
+  const COUNT = lowPower ? 500 : 1200;
   const pos = new Float32Array(COUNT * 3);
   const col = new Float32Array(COUNT * 3);
   const palette = [new THREE.Color('#00d4ff'), new THREE.Color('#7c5cff'), new THREE.Color('#ff3d9a'), new THREE.Color('#ffb547'), new THREE.Color('#ffffff')];
@@ -229,4 +250,5 @@
     renderer.render(scene, camera);
   }
   tick();
+  }
 })();

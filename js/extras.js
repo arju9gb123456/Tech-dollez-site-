@@ -117,6 +117,56 @@
       stack: ['HTML', 'CSS', 'JavaScript'], tags: ['Local Business', 'Animated']
     },
     {
+      id: 'edusmart', f: 'concept', concept: true, feature: true, variant: 'dash',
+      theme: { t1: '#6366f1', t2: '#22d3ee', tbg: 'linear-gradient(135deg,#111a3d,#0a2a3a)', tsurf: '#0e1428', tline: 'rgba(255,255,255,.09)', ttext: '#fff' },
+      cat: 'Software · School ERP', title: 'EduSmart School ERP',
+      short: 'All-in-one school management — admissions, attendance, fees, exams and a parent app.',
+      lead: 'A complete school operating system that replaces registers, Excel sheets and WhatsApp groups.',
+      problem: 'Schools juggle paper registers, Excel fee sheets and endless parent calls — data is scattered and nothing is real-time.',
+      built: ['Online admissions & student profiles', 'Attendance with instant SMS / WhatsApp alerts to parents', 'Fee collection with UPI, receipts & due reminders', 'Exams, report cards & timetable', 'Parent & teacher mobile app'],
+      stack: ['React', 'Node.js', 'PostgreSQL', 'Flutter'], tags: ['ERP', 'Education', 'Mobile App']
+    },
+    {
+      id: 'freshcart', f: 'concept', concept: true, variant: 'app',
+      theme: { t1: '#22c55e', t2: '#a3e635', tbg: 'linear-gradient(135deg,#06210f,#1a2a06)', tsurf: '#0b170e', tline: 'rgba(255,255,255,.09)', ttext: '#fff' },
+      cat: 'App · Grocery Delivery', title: 'FreshCart',
+      short: '10-minute grocery delivery app with live order tracking and a store admin dashboard.',
+      lead: 'A quick-commerce grocery app for a local supermarket chain going online.',
+      problem: 'Neighbourhood stores lose customers to big delivery apps because they have no way to take and track online orders.',
+      built: ['Customer app with smart search & one-tap reorder', 'Live rider tracking on the map', 'UPI, card & cash-on-delivery payments', 'Store dashboard for inventory & orders', 'Offers, coupons & push notifications'],
+      stack: ['Flutter', 'Node.js', 'MongoDB', 'Google Maps API'], tags: ['Mobile App', 'E‑Commerce']
+    },
+    {
+      id: 'royalstay', f: 'concept', concept: true, variant: 'site',
+      theme: { t1: '#c9a227', t2: '#e7c873', tbg: 'linear-gradient(135deg,#2a0a12,#1a0f05)', tsurf: '#140a0c', tline: 'rgba(255,255,255,.09)', ttext: '#fff' },
+      cat: 'Website · Hospitality', title: 'Royal Heritage Hotel',
+      short: 'Luxury hotel website with room booking, photo tours and direct reservations.',
+      lead: 'A booking-first website so a heritage hotel earns more from direct bookings instead of paying portal commissions.',
+      problem: 'Most bookings came through travel portals that charge heavy commission, and the old website couldn’t take reservations.',
+      built: ['Elegant, photo-led luxury design', 'Room availability & instant booking', 'Virtual tour gallery', 'Events & wedding enquiry forms', 'Multi-language support'],
+      stack: ['Next.js', 'Tailwind', 'Supabase', 'Razorpay'], tags: ['Booking', 'Luxury']
+    },
+    {
+      id: 'fitpulse', f: 'concept', concept: true, variant: 'app',
+      theme: { t1: '#f97316', t2: '#ef4444', tbg: 'linear-gradient(135deg,#2a1206,#2a0808)', tsurf: '#170c08', tline: 'rgba(255,255,255,.09)', ttext: '#fff' },
+      cat: 'App · Fitness', title: 'FitPulse Gym App',
+      short: 'Gym membership app with workout plans, check-ins and trainer chat.',
+      lead: 'A member app that keeps gym-goers motivated and gym owners organised.',
+      problem: 'Memberships, renewals and diet plans were tracked on paper — members dropped off and renewals were missed.',
+      built: ['QR check-in & attendance streaks', 'Personal workout & diet plans', 'Membership renewal reminders & online payment', 'Trainer chat & progress photos', 'Owner dashboard with revenue & retention'],
+      stack: ['React Native', 'Node.js', 'MongoDB'], tags: ['Mobile App', 'Fitness']
+    },
+    {
+      id: 'legalease', f: 'concept', concept: true, variant: 'site',
+      theme: { t1: '#3b82f6', t2: '#94a3b8', tbg: 'linear-gradient(135deg,#0b1220,#16202f)', tsurf: '#0d1524', tline: 'rgba(255,255,255,.09)', ttext: '#fff' },
+      cat: 'Website · Professional', title: 'LegalEase Law Associates',
+      short: 'Trust-building law firm website with consultation booking and case-type pages.',
+      lead: 'A professional website that turns visitors into consultation bookings.',
+      problem: 'Potential clients couldn’t understand the firm’s expertise online, and there was no easy way to book a consultation.',
+      built: ['Clean, authoritative design', 'Practice-area pages for SEO', 'Online consultation booking with calendar', 'Client testimonials & FAQs', 'WhatsApp & call quick actions'],
+      stack: ['HTML', 'CSS', 'JavaScript', 'Calendly'], tags: ['Professional', 'SEO']
+    },
+    {
       id: 'jarvis', f: 'lab', variant: 'hud',
       theme: { t1: '#00d4ff', t2: '#3d8bff', tbg: 'radial-gradient(circle at 50% 50%,#062033,#03070d)', tsurf: '#050b12', tline: 'rgba(255,255,255,.08)', ttext: '#fff' },
       cat: 'Labs · AI', title: 'Jarvis AI HUD',
@@ -156,7 +206,7 @@
     grid.innerHTML = PROJECTS.map((p) => `
       <article class="wk${p.feature ? ' feature' : ''}" data-f="${p.f}" data-id="${p.id}" style="${themeStyle(p.theme)}" tabindex="0" role="button" aria-label="Open case study: ${esc(p.title)}">
         <div class="card__glow"></div>
-        <div class="wk__thumb">${thumb(p)}${p.live ? '<span class="wk__live"><i></i>Live in production</span>' : ''}<span class="wk__open">↗</span></div>
+        <div class="wk__thumb">${thumb(p)}${p.live ? '<span class="wk__live"><i></i>Live in production</span>' : ''}${p.concept ? '<span class="wk__concept">✦ Concept design</span>' : ''}<span class="wk__open">↗</span></div>
         <div class="wk__body">
           <span class="wk__cat">${esc(p.cat)}</span>
           <h3>${esc(p.title)}</h3>
@@ -209,10 +259,16 @@
     $('#mTitle').textContent = p.title;
     $('#mLead').textContent = p.lead;
     $('#mProblem').textContent = p.problem;
+    const labels = $$('.modal__cols b', modal);
+    labels[0].textContent = p.concept ? 'The idea' : 'The challenge';
+    labels[1].textContent = p.concept ? 'What it includes' : 'What we built';
+    $('#mCat').textContent = p.concept ? `Concept design · ${p.cat}` : p.cat;
     $('#mBuilt').innerHTML = p.built.map((b) => `<li>${esc(b)}</li>`).join('');
     $('#mStack').innerHTML = p.stack.map((s) => `<span>${esc(s)}</span>`).join('');
     const cta = $('#mCta');
-    cta.href = waLink(`Hi Tech Dollez! 👋 I saw your "${p.title}" project. I want something similar for my business.`);
+    cta.href = waLink(p.concept
+      ? `Hi Tech Dollez! 👋 I liked your "${p.title}" concept. I want something like this for my business.`
+      : `Hi Tech Dollez! 👋 I saw your "${p.title}" project. I want something similar for my business.`);
     let demoBtn = $('#mDemo');
     if (p.demo) {
       if (!demoBtn) {
