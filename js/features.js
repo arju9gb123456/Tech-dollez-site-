@@ -397,8 +397,9 @@
       const h = +hourFmt.format(now);
       const online = h >= 9 && h < 22;
       live.classList.toggle('off', !online);
-      statusEl.textContent = online ? 'Online now' : 'Away · back at 9 AM';
-      noteEl.textContent = online ? 'Replies on WhatsApp — fast.' : 'Leave a WhatsApp message — we reply first thing.';
+      const hi = window.__lang === 'hi';
+      statusEl.textContent = online ? (hi ? 'अभी ऑनलाइन' : 'Online now') : (hi ? 'अभी दूर · सुबह 9 बजे वापस' : 'Away · back at 9 AM');
+      noteEl.textContent = online ? (hi ? 'WhatsApp पर जल्दी जवाब।' : 'Replies on WhatsApp — fast.') : (hi ? 'WhatsApp पर मैसेज छोड़ें — सुबह सबसे पहले जवाब।' : 'Leave a WhatsApp message — we reply first thing.');
     }
     tick();
     setInterval(tick, 1000);
@@ -414,7 +415,8 @@
       if (document.hidden) return;
       mi = (mi + 1) % modes.length;
       morph.dataset.mode = modes[mi];
-      scramble(label, modes[mi].charAt(0).toUpperCase() + modes[mi].slice(1), 500);
+      const HI_M = { desktop: 'डेस्कटॉप', tablet: 'टैबलेट', mobile: 'मोबाइल' };
+      scramble(label, window.__lang === 'hi' ? HI_M[modes[mi]] : modes[mi].charAt(0).toUpperCase() + modes[mi].slice(1), 500);
     }, 2400);
   }
 
@@ -451,13 +453,13 @@
         s.classList.toggle('active', on);
         s.classList.toggle('back', on && dir < 0);
       });
-      label.textContent = `Step ${n} of 3`;
+      label.textContent = window.__lang === 'hi' ? `स्टेप ${n} / 3` : `Step ${n} of 3`;
       prog.style.width = (n / 3) * 100 + '%';
       back.hidden = n === 1;
       next.hidden = n === 3;
       send.hidden = n !== 3;
       note.classList.remove('err');
-      note.textContent = 'Your brief opens in WhatsApp, ready to send.';
+      note.textContent = window.__lang === 'hi' ? 'आपका ब्रीफ़ WhatsApp में खुलेगा, भेजने के लिए तैयार।' : 'Your brief opens in WhatsApp, ready to send.';
       if (n === 3) {
         const f = picked('features'), t = picked('timeline');
         summary.innerHTML =
@@ -508,6 +510,10 @@
       window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
     });
 
+    document.addEventListener('td:lang', () => {
+      label.textContent = window.__lang === 'hi' ? `स्टेप ${cur} / 3` : `Step ${cur} of 3`;
+      if (!note.classList.contains('err')) note.textContent = window.__lang === 'hi' ? 'आपका ब्रीफ़ WhatsApp में खुलेगा, भेजने के लिए तैयार।' : 'Your brief opens in WhatsApp, ready to send.';
+    });
     // plan "Get Quote" buttons preselect services
     $$('[data-plan]').forEach((btn) => {
       btn.addEventListener('click', () => {

@@ -109,20 +109,41 @@
 
   const burger = document.getElementById('navBurger');
   const navLinks = document.getElementById('navLinks');
-  burger.addEventListener('click', () => {
-    const open = !navLinks.classList.contains('open');
+  const navInner = navLinks.parentElement;
+  const navAnchor = navLinks.nextElementSibling; // keep original position for desktop
+
+  // On mobile the menu is a full-screen overlay. It must live directly under <body>:
+  // inside the nav, any transform / backdrop-filter on an ancestor turns `position: fixed`
+  // into "fixed to that small box", which made the menu overlap the page.
+  const mobileMQ = window.matchMedia('(max-width: 900px)');
+  function placeMenu() {
+    if (mobileMQ.matches) {
+      if (navLinks.parentElement !== document.body) document.body.appendChild(navLinks);
+    } else {
+      closeMenu();
+      if (navLinks.parentElement !== navInner) navInner.insertBefore(navLinks, navAnchor);
+    }
+  }
+  function setMenu(open) {
     navLinks.classList.toggle('open', open);
     burger.classList.toggle('open', open);
     burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    root.classList.toggle('menu-open', open);
+    if (open) nav.classList.remove('hidden');
     if (lenis) open ? lenis.stop() : lenis.start();
-  });
+  }
+  burger.addEventListener('click', () => setMenu(!navLinks.classList.contains('open')));
   function closeMenu() {
     if (!navLinks.classList.contains('open')) return;
-    navLinks.classList.remove('open');
-    burger.classList.remove('open');
-    burger.setAttribute('aria-expanded', 'false');
-    if (lenis) lenis.start();
+    setMenu(false);
   }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+  // tap on the empty overlay area closes the menu
+  navLinks.addEventListener('click', (e) => { if (e.target === navLinks) closeMenu(); });
+  placeMenu();
+  if (mobileMQ.addEventListener) mobileMQ.addEventListener('change', placeMenu);
+  else mobileMQ.addListener(placeMenu);
 
   /* ---------- Custom cursor ---------- */
   if (finePointer && !reduced) {
