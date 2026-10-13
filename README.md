@@ -29,6 +29,15 @@ Official website of **Tech Dollez**, a digital studio for website design, web & 
 - Three.js (~600 KB) is lazy-loaded after the page is interactive; a gradient placeholder shows meanwhile
 - Lighter 3D mesh on phones / low-power devices, no heavy blur filters on background orbs
 
+## SEO
+
+- Title, meta description, canonical (`https://techdollez.com/`), Open Graph & Twitter cards with a 1200×630 share image
+- JSON-LD structured data: Organization / ProfessionalService (Bhopal), founder, WebSite, WebPage, FAQPage
+- `robots.txt`, `sitemap.xml`, `site.webmanifest`, app icons and a custom `404.html`
+- Lighthouse (local): SEO 100 · Accessibility 100
+
+After going live: verify the site in Google Search Console and submit `https://techdollez.com/sitemap.xml`.
+
 ## Structure
 
 ```

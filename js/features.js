@@ -526,7 +526,7 @@
   if (big) {
     const txt = big.textContent.trim();
     big.classList.remove('grad-text');
-    big.setAttribute('aria-label', txt);
+    big.setAttribute('aria-label', txt); big.setAttribute('role', 'img');
     big.innerHTML = txt.split('').map((ch, i) =>
       ch === ' ' ? '<span class="fl sp" aria-hidden="true"> </span>'
         : `<span class="fl" style="--i:${i}" aria-hidden="true">${ch}</span>`).join('');

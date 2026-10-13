@@ -1,0 +1,14 @@
+{
+  "name": "Tech Dollez",
+  "short_name": "Tech Dollez",
+  "description": "Website design, app development, custom software and ERP — Bhopal, India.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#05050a",
+  "theme_color": "#05050a",
+  "icons": [
+    { "src": "/assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/logo-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/assets/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

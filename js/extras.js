@@ -204,7 +204,7 @@
   const grid = $('#workGrid');
   if (grid) {
     grid.innerHTML = PROJECTS.map((p) => `
-      <article class="wk${p.feature ? ' feature' : ''}" data-f="${p.f}" data-id="${p.id}" style="${themeStyle(p.theme)}" tabindex="0" role="button" aria-label="Open case study: ${esc(p.title)}">
+      <div class="wk${p.feature ? ' feature' : ''}" data-f="${p.f}" data-id="${p.id}" style="${themeStyle(p.theme)}" tabindex="0" role="button" aria-label="Open case study: ${esc(p.title)}">
         <div class="card__glow"></div>
         <div class="wk__thumb">${thumb(p)}${p.live ? '<span class="wk__live"><i></i>Live in production</span>' : ''}${p.concept ? '<span class="wk__concept">✦ Concept design</span>' : ''}<span class="wk__open">↗</span></div>
         <div class="wk__body">
@@ -213,7 +213,7 @@
           <p>${esc(p.short)}</p>
           <div class="wk__tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>
         </div>
-      </article>`).join('');
+      </div>`).join('');
     grid.style.gridAutoFlow = 'dense';
 
     // hover glow + subtle tilt
@@ -298,7 +298,7 @@
      ======================================================= */
   const ERP = {
     sales: () => `
-      <div class="e-top"><div><small>Good afternoon, Sales team</small><h4>Sales Dashboard</h4></div><span class="e-badge">● Live sync</span></div>
+      <div class="e-top"><div><small>Good afternoon, Sales team</small><p class="e-h">Sales Dashboard</p></div><span class="e-badge">● Live sync</span></div>
       <div class="e-kpis">
         ${kpi('Orders today', '48', '+12%')}${kpi('Revenue (MTD)', '₹3.2L', '+8%')}${kpi('New leads', '23', '+15%')}${kpi('Conversion', '34%', '+3%')}
       </div>
@@ -311,7 +311,7 @@
         ${row('#PX-2477', 'Urban Gym', 'Caps', '150', '<span class="st r">SLA risk</span>')}
       </table></div>`,
     production: () => `
-      <div class="e-top"><div><small>Production floor</small><h4>Job Board</h4></div><span class="e-badge">9 active jobs</span></div>
+      <div class="e-top"><div><small>Production floor</small><p class="e-h">Job Board</p></div><span class="e-badge">9 active jobs</span></div>
       <div class="e-kanban">
         ${col('Design', [['Acme Corp · T‑Shirts', 'Artwork v2', 40], ['BlueLeaf · Mugs', 'Awaiting approval', 20]])}
         ${col('Printing', [['Nova Tech · Diaries', 'Screen print', 65], ['Urban Gym · Caps', 'Embroidery', 55], ['Zen Yoga · Totes', 'DTF print', 80]])}
@@ -319,14 +319,14 @@
         ${col('Ready to Ship', [['Pixel Labs · Stickers', 'Packed', 100], ['Green Farms · Bags', 'Label printed', 100]])}
       </div>`,
     logistics: () => `
-      <div class="e-top"><div><small>Shipments & couriers</small><h4>Logistics Tracker</h4></div><span class="e-badge">Bulk labels ready</span></div>
+      <div class="e-top"><div><small>Shipments & couriers</small><p class="e-h">Logistics Tracker</p></div><span class="e-badge">Bulk labels ready</span></div>
       <div class="e-track">
         ${ship('Nova Tech · #PX-2479', 'Bluedart · AWB 7810 2245 91', 3, '<span class="st b">In transit</span>')}
         ${ship('Shree Events · #PX-2478', 'Delhivery · AWB 1462 8830 07', 5, '<span class="st g">Delivered</span>')}
         ${ship('Urban Gym · #PX-2477', 'Bluedart · AWB 7810 2245 88', 1, '<span class="st r">SLA breach in 6h</span>')}
       </div>`,
     finance: () => `
-      <div class="e-top"><div><small>Accounts & GST</small><h4>Finance Overview</h4></div><span class="e-badge">GST verified</span></div>
+      <div class="e-top"><div><small>Accounts & GST</small><p class="e-h">Finance Overview</p></div><span class="e-badge">GST verified</span></div>
       <div class="e-kpis">
         ${kpi('Invoiced', '₹8.4L', '+11%')}${kpi('Received', '₹6.9L', '+9%')}${kpi('Pending', '₹1.5L', '-4%', true)}${kpi('GST collected', '₹1.28L', '+11%')}
       </div>
@@ -339,7 +339,7 @@
         </div></div>
       </div>`,
     admin: () => `
-      <div class="e-top"><div><small>Users, roles & help desk</small><h4>Admin Console</h4></div><span class="e-badge">2 open tickets</span></div>
+      <div class="e-top"><div><small>Users, roles & help desk</small><p class="e-h">Admin Console</p></div><span class="e-badge">2 open tickets</span></div>
       <div class="e-users">
         ${user('SA', 'Sales Team', '4 users · Sales role', '<span class="st g">Active</span>')}
         ${user('PR', 'Production', '6 users · Production role', '<span class="st g">Active</span>')}
@@ -620,7 +620,7 @@
   const HI = [
     ['.nav__links a[href="#services"]', 'सर्विसेज़'], ['.nav__links a[href="#work"]', 'हमारा काम'], ['.nav__links a[href="#playground"]', 'प्लेग्राउंड'],
     ['.nav__links a[href="#audit"]', 'फ्री ऑडिट'], ['.nav__links a[href="#about"]', 'हमारे बारे में'], ['.nav__links a[href="#contact"]', 'संपर्क'],
-    ['.hero .pill', '<span class="pill__dot"></span> डिजिटल स्टूडियो · वेबसाइट · ऐप्स · सॉफ़्टवेयर'],
+    ['.hero .pill', '<span class="pill__dot"></span> Tech Dollez · वेब और ऐप स्टूडियो · भोपाल'],
     ['.hero .line__inner', ['हम बनाते हैं', 'आपकी डिजिटल दुनिया।']],
     ['.rot-pre', 'हमारी खासियत:'],
     ['.hero__sub', 'Tech Dollez प्रीमियम वेबसाइट, मोबाइल ऐप और कस्टम सॉफ़्टवेयर बनाता है — तेज़, खूबसूरत और आपके बिज़नेस को आगे बढ़ाने के लिए।'],
