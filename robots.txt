@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://techdollez.com/sitemap.xml
+Sitemap: https://techdoodlez.com/sitemap.xml
