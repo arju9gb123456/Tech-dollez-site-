@@ -27,6 +27,7 @@
   let lenis = null;
   if (!reduced && typeof Lenis !== 'undefined') {
     lenis = new Lenis({ duration: 1.15, smoothWheel: true, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    window.__lenis = lenis;
     if (hasGSAP) {
       lenis.on('scroll', ScrollTrigger.update);
       gsap.ticker.add((time) => lenis.raf(time * 1000));
@@ -329,48 +330,4 @@
     document.querySelectorAll('.counter').forEach((el) => { el.textContent = el.dataset.target + (el.dataset.suffix || ''); });
   }
 
-  /* ---------- Plan "Get Quote" pre-selects service ---------- */
-  const serviceSelect = document.getElementById('fService');
-  const msgBox = document.getElementById('fMsg');
-  document.querySelectorAll('[data-plan]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const plan = btn.dataset.plan;
-      if (plan === 'Custom') serviceSelect.value = 'Custom Software';
-      else serviceSelect.value = 'Website Design';
-      if (!msgBox.value) msgBox.value = `I'm interested in the ${plan} plan. `;
-      msgBox.dispatchEvent(new Event('input'));
-    });
-  });
-
-  /* ---------- Contact form → WhatsApp ---------- */
-  const form = document.getElementById('contactForm');
-  const note = document.getElementById('formNote');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = form.name.value.trim();
-    const phone = form.phone.value.trim();
-    const service = form.service.value;
-    const message = form.message.value.trim();
-
-    form.querySelectorAll('.field').forEach((f) => f.classList.remove('error'));
-    let ok = true;
-    if (!name) { form.name.closest('.field').classList.add('error'); ok = false; }
-    if (!message) { form.message.closest('.field').classList.add('error'); ok = false; }
-    if (!ok) {
-      note.textContent = 'Please add your name and a short message.';
-      note.classList.add('err');
-      return;
-    }
-    note.textContent = 'Opening WhatsApp…';
-    note.classList.remove('err');
-
-    const text =
-      `Hi Tech Dollez! 👋\n\n` +
-      `*Name:* ${name}\n` +
-      (phone ? `*Phone:* ${phone}\n` : '') +
-      `*Service:* ${service}\n\n` +
-      `*Project:* ${message}`;
-    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
-    setTimeout(() => { note.textContent = 'Opens WhatsApp with your message ready to send.'; }, 4000);
-  });
 })();
