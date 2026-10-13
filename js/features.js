@@ -156,24 +156,25 @@
   // nav links scramble on hover
   if (finePointer) {
     $$('.nav__links a, .footer__links a').forEach((a) => {
-      const txt = a.textContent;
-      a.addEventListener('pointerenter', () => scramble(a, txt, 450));
+      a.dataset.txt = a.textContent;
+      a.addEventListener('pointerenter', () => scramble(a, a.dataset.txt, 450));
     });
   }
 
   // eyebrows decode when visible
   $$('.eyebrow').forEach((el) => {
-    const txt = el.textContent;
-    onView(el, () => scramble(el, txt, 900));
+    el.dataset.txt = el.textContent;
+    onView(el, () => scramble(el, el.dataset.txt, 900));
   });
 
   // hero word rotator
   const rot = $('#rotator');
   if (rot) {
-    const words = ['websites', 'mobile apps', 'software', 'redesigns', 'brands', 'experiences'];
+    const defaults = ['websites', 'mobile apps', 'software', 'redesigns', 'brands', 'experiences'];
     let wi = 0;
     setInterval(() => {
       if (document.hidden) return;
+      const words = window.__rotWords || defaults;
       wi = (wi + 1) % words.length;
       scramble(rot, words[wi], 800);
     }, 2600);
@@ -299,7 +300,10 @@
       wrap.addEventListener('pointerleave', () => { frame.style.transform = ''; });
     }
     render(false);
+    window.__pv = { state, render, nameIn, radiusIn };
   }
+  window.__scramble = scramble;
+  window.__fx = fx;
 
   /* =======================================================
      6. BENTO WIDGETS

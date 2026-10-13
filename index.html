@@ -13,10 +13,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/features.css" />
+  <link rel="stylesheet" href="css/extras.css" />
 </head>
 <body>
 
@@ -54,12 +55,16 @@
       </a>
       <nav class="nav__links" id="navLinks">
         <a href="#services">Services</a>
-        <a href="#why">Why Us</a>
+        <a href="#work">Work</a>
         <a href="#playground">Playground</a>
-        <a href="#process">Process</a>
-        <a href="#plans">Plans</a>
+        <a href="#audit">Free Audit</a>
+        <a href="#about">About</a>
         <a href="#contact" class="nav__mobile-cta">Contact</a>
       </nav>
+      <div class="nav__tools">
+        <button class="lang" id="langToggle" aria-label="Switch language"><span class="on">EN</span><span>हि</span></button>
+        <button class="cmdk-btn" id="cmdkBtn" aria-label="Open command menu"><kbd>Ctrl</kbd><kbd>K</kbd></button>
+      </div>
       <a href="https://wa.me/916260993724?text=Hi%20Tech%20Dollez%2C%20I%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener" class="btn btn--glass btn--sm magnetic nav__cta">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6zm5.4-7.3c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5c0-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg>
         Let's Talk
@@ -87,7 +92,7 @@
           <span class="line"><span class="line__inner grad-text grad-anim">digital world.</span></span>
         </h1>
         <p class="hero__rotator reveal-up">
-          Crafting <span class="rotator" id="rotator">websites</span><span class="caret" aria-hidden="true"></span>
+          <span class="rot-pre">Crafting</span> <span class="rotator" id="rotator">websites</span><span class="caret" aria-hidden="true"></span>
         </p>
         <p class="hero__sub reveal-up">
           Tech Dollez designs and develops premium websites, mobile apps and custom software —
@@ -327,6 +332,17 @@
 
         <div class="builder__grid">
           <div class="builder__controls">
+            <div class="ctrl ctrl--full">
+              <span class="ctrl__label">Start from your industry</span>
+              <div class="presets" id="presets">
+                <button type="button" data-preset="salon">💈 Salon</button>
+                <button type="button" data-preset="restaurant">🍽️ Restaurant</button>
+                <button type="button" data-preset="clinic">🩺 Clinic</button>
+                <button type="button" data-preset="college">🎓 College</button>
+                <button type="button" data-preset="shop">🛍️ Shop</button>
+                <button type="button" data-preset="startup">🚀 Startup</button>
+              </div>
+            </div>
             <div class="ctrl">
               <label class="ctrl__label" for="bName">Your business name</label>
               <input id="bName" class="ctrl__input" maxlength="22" value="Your Brand" autocomplete="off" />
@@ -406,6 +422,109 @@
             <p class="builder__note">Live preview — every change updates instantly.</p>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ===== OUR WORK ===== -->
+    <section class="section work" id="work">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Our Work</p>
+          <h2 class="section__title">Real projects.<br><span class="grad-text">Real businesses.</span></h2>
+          <p class="section__desc">ERPs, hospital tools, college websites, apps — built and running for real people every day.</p>
+        </div>
+        <div class="work__filters" id="workFilters" role="tablist">
+          <button type="button" class="active" data-f="all">All</button>
+          <button type="button" data-f="web">Websites</button>
+          <button type="button" data-f="software">Software &amp; ERP</button>
+          <button type="button" data-f="lab">Labs</button>
+        </div>
+        <div class="work__grid" id="workGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===== FEATURED ERP ===== -->
+    <section class="section erp" id="erp">
+      <div class="container">
+        <div class="erp__head">
+          <div>
+            <p class="eyebrow">Featured Build</p>
+            <h2 class="section__title">PrintX <span class="grad-text">ERP.</span></h2>
+            <p class="section__desc">A complete order-to-delivery system for a B2B custom printing business — five role-based dashboards, live in production and used every single day.</p>
+            <div class="erp__chips">
+              <span>React</span><span>TypeScript</span><span>Supabase</span><span>PostgreSQL</span><span>Vercel</span>
+            </div>
+          </div>
+          <ul class="erp__list">
+            <li>Role-based dashboards: Sales, Production, Logistics, Finance, Admin</li>
+            <li>Lead Management CRM with CSV import / export</li>
+            <li>SLA breach tracking &amp; courier tracking links</li>
+            <li>Bulk shipping labels &amp; Bluedart Excel export</li>
+            <li>GST &amp; Indian mobile validation, shipping reconciliation</li>
+            <li>Built-in help desk ticketing for staff</li>
+          </ul>
+        </div>
+
+        <div class="erp__app">
+          <aside class="erp__side">
+            <div class="erp__logo"><i></i><b>PrintX</b></div>
+            <button type="button" class="active" data-tab="sales"><span>📈</span>Sales</button>
+            <button type="button" data-tab="production"><span>🏭</span>Production</button>
+            <button type="button" data-tab="logistics"><span>🚚</span>Logistics</button>
+            <button type="button" data-tab="finance"><span>💰</span>Finance</button>
+            <button type="button" data-tab="admin"><span>🛡️</span>Admin</button>
+          </aside>
+          <div class="erp__main" id="erpMain"></div>
+        </div>
+        <p class="erp__note">Interactive demo with sample data — click the tabs.</p>
+      </div>
+    </section>
+
+    <!-- ===== BEFORE / AFTER ===== -->
+    <section class="section compare" id="compare">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Redesign</p>
+          <h2 class="section__title">Old site? <span class="grad-text">Drag to transform.</span></h2>
+          <p class="section__desc">From slow, table-based pages to a fast, modern, mobile-first experience. Drag the handle and see the difference.</p>
+        </div>
+        <div class="ba" id="ba" style="--pos:50%">
+          <div class="ba__old">
+            <div class="old">
+              <div class="old__top"><b>ABC Institute</b><span>Estd. 2004 | Affiliated</span></div>
+              <div class="old__marq">★ Welcome to our official website ★ Admissions open ★ Click here for notice ★</div>
+              <table class="old__nav"><tr><td>Home</td><td>About Us</td><td>Courses</td><td>Gallery</td><td>Notice</td><td>Contact</td></tr></table>
+              <div class="old__body">
+                <div class="old__side"><u>» Latest News</u><u>» Download Form</u><u>» Fee Structure</u><u>» Results</u><u>» Photo Gallery</u></div>
+                <div class="old__content">
+                  <div class="old__img">[ image ]</div>
+                  <p><b>About Us :-</b> Our institute is providing quality education since many years. Please visit our campus. For more details click here.</p>
+                  <p class="old__count">Visitor No : 004521</p>
+                </div>
+              </div>
+            </div>
+            <span class="ba__tag">Before</span>
+          </div>
+          <div class="ba__new">
+            <div class="neo">
+              <div class="neo__nav"><b><i></i>ABC Institute</b><span>Programs</span><span>Campus</span><span>Admissions</span><em>Apply now</em></div>
+              <div class="neo__hero">
+                <div>
+                  <small>Admissions 2026 open</small>
+                  <h3>Shape your future <span>with us.</span></h3>
+                  <p>World-class faculty, modern labs and a campus you'll love.</p>
+                  <div class="neo__btns"><em>Apply now</em><span>Virtual tour</span></div>
+                </div>
+                <div class="neo__art"><i></i><i></i></div>
+              </div>
+              <div class="neo__stats"><div><b>20+</b><small>Years</small></div><div><b>95%</b><small>Placement</small></div><div><b>40+</b><small>Faculty</small></div></div>
+            </div>
+            <span class="ba__tag ba__tag--new">After · Tech Dollez</span>
+          </div>
+          <div class="ba__handle" aria-hidden="true"><span>⟷</span></div>
+          <input type="range" class="ba__range" id="baRange" min="0" max="100" value="50" aria-label="Drag to compare before and after" />
+        </div>
+        <p class="erp__note">Illustration of a typical redesign — we do this for colleges, hospitals, shops and businesses.</p>
       </div>
     </section>
 
@@ -521,6 +640,32 @@
       </div>
     </section>
 
+    <!-- ===== FREE AUDIT ===== -->
+    <section class="section audit" id="audit">
+      <div class="container">
+        <div class="audit__box">
+          <div class="audit__glow" aria-hidden="true"></div>
+          <div class="section__head">
+            <p class="eyebrow">Free Website Audit</p>
+            <h2 class="section__title">How good is <span class="grad-text">your website?</span></h2>
+            <p class="section__desc">Enter any website and get a real Google Lighthouse report — speed, SEO, accessibility and best practices — in seconds.</p>
+          </div>
+          <form class="audit__form" id="auditForm" novalidate>
+            <div class="audit__input">
+              <span>🔗</span>
+              <input type="text" id="auditUrl" placeholder="yourwebsite.com" autocomplete="url" inputmode="url" />
+              <div class="audit__strat" id="auditStrat">
+                <button type="button" class="active" data-s="mobile">📱 Mobile</button>
+                <button type="button" data-s="desktop">🖥️ Desktop</button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--primary" id="auditBtn"><span>Run free audit</span></button>
+          </form>
+          <div class="audit__result" id="auditResult" hidden></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== TECH ORBIT ===== -->
     <section class="section stack">
       <div class="container stack__inner">
@@ -536,6 +681,33 @@
           </div>
           <div class="orbit__ring orbit__ring--2">
             <span style="--i:0">MongoDB</span><span style="--i:1">Supabase</span><span style="--i:2">AWS</span><span style="--i:3">Flutter</span><span style="--i:4">Three.js</span><span style="--i:5">TypeScript</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT FOUNDER ===== -->
+    <section class="section about" id="about">
+      <div class="container about__grid">
+        <div class="about__card tilt">
+          <div class="card__glow"></div>
+          <div class="about__avatar"><span>AA</span><i></i></div>
+          <h3>Arjun Ahirwar</h3>
+          <p class="about__role">Founder · Full‑Stack Developer</p>
+          <p class="about__loc">📍 Bhopal, Madhya Pradesh</p>
+          <div class="about__stack"><span>React</span><span>Node.js</span><span>TypeScript</span><span>Supabase</span><span>MongoDB</span><span>AWS</span><span>Three.js</span></div>
+          <a href="https://wa.me/916260993724?text=Hi%20Arjun%2C%20I%20saw%20Tech%20Dollez%20and%20want%20to%20talk." class="btn btn--primary btn--block" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6z"/></svg><span>Talk to Arjun</span></a>
+        </div>
+        <div class="about__text">
+          <p class="eyebrow">The person behind it</p>
+          <h2 class="section__title">Hi, I'm Arjun. <span class="grad-text">I build things that work.</span></h2>
+          <p class="section__desc">I'm a full‑stack developer and B.Tech CSE student from Bhopal. I don't just make websites look good — I build the systems behind real businesses: an ERP that runs a printing company's orders end to end, analytics dashboards for a hospital, and modern websites for colleges, salons and startups.</p>
+          <p class="section__desc">When you work with Tech Dollez, you talk directly to the developer writing your code. No middlemen, no templates, no excuses.</p>
+          <div class="about__timeline">
+            <div><b>ERP &amp; Software</b><span>Order flow, CRM, logistics, finance — built for daily business use.</span></div>
+            <div><b>Healthcare &amp; Education</b><span>Hospital dashboards, faculty systems and college website redesigns.</span></div>
+            <div><b>Websites &amp; Apps</b><span>Premium animated websites and app marketing sites for brands.</span></div>
+            <div><b>Tech Dollez</b><span>Bringing all of it together as one premium digital studio.</span></div>
           </div>
         </div>
       </div>
@@ -591,6 +763,21 @@
             </ul>
             <a href="#contact" class="btn btn--ghost btn--block" data-plan="Custom">Get Quote</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FREE CONCEPT BAND ===== -->
+    <section class="band">
+      <div class="container">
+        <div class="band__inner">
+          <div class="band__shine" aria-hidden="true"></div>
+          <div>
+            <p class="band__kicker">🎁 Not sure yet?</p>
+            <h2 class="band__title">Get a <span class="grad-text grad-anim">free homepage concept</span> for your business.</h2>
+            <p class="band__desc">Tell us your business name and what you do. We'll send you a design concept — no payment, no commitment.</p>
+          </div>
+          <a href="https://wa.me/916260993724?text=Hi%20Tech%20Dollez!%20I%20want%20a%20free%20homepage%20concept.%0A%0ABusiness%20name%3A%20%0AWhat%20we%20do%3A%20" class="btn btn--primary magnetic" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6z"/></svg><span>Claim free concept</span></a>
         </div>
       </div>
     </section>
@@ -757,6 +944,57 @@
     </div>
   </footer>
 
+  <!-- ===== CASE STUDY MODAL ===== -->
+  <div class="modal" id="workModal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" data-lenis-prevent role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <button class="modal__close" data-close aria-label="Close">✕</button>
+      <div class="modal__thumb" id="mThumb"></div>
+      <div class="modal__body">
+        <p class="eyebrow" id="mCat"></p>
+        <h3 id="mTitle"></h3>
+        <p class="modal__lead" id="mLead"></p>
+        <div class="modal__cols">
+          <div><b>The challenge</b><p id="mProblem"></p></div>
+          <div><b>What we built</b><ul id="mBuilt"></ul></div>
+        </div>
+        <div class="modal__stack" id="mStack"></div>
+        <a class="btn btn--primary" id="mCta" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6z"/></svg><span>Build something like this</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CHAT ASSISTANT ===== -->
+  <div class="chat" id="chat">
+    <button class="chat__launch" id="chatLaunch" aria-label="Open chat assistant">
+      <span class="chat__ico">💬</span><span class="chat__hello">Questions? Ask me!</span>
+    </button>
+    <div class="chat__panel" id="chatPanel" hidden>
+      <div class="chat__head">
+        <div class="chat__av"><img src="assets/favicon.svg" alt="" /><i></i></div>
+        <div><b>Tech Dollez Assistant</b><small>Instant answers · Arjun on WhatsApp</small></div>
+        <button class="chat__x" id="chatClose" aria-label="Close chat">✕</button>
+      </div>
+      <div class="chat__body" id="chatBody" data-lenis-prevent></div>
+      <div class="chat__quick" id="chatQuick"></div>
+      <form class="chat__form" id="chatForm">
+        <input id="chatInput" placeholder="Type your question…" autocomplete="off" />
+        <button type="submit" aria-label="Send">➤</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== COMMAND PALETTE ===== -->
+  <div class="cmdk" id="cmdk" hidden>
+    <div class="cmdk__backdrop" data-close></div>
+    <div class="cmdk__panel" role="dialog" aria-modal="true" aria-label="Command menu">
+      <div class="cmdk__search"><span>⌕</span><input id="cmdkInput" placeholder="Search sections and actions…" autocomplete="off" /><kbd>Esc</kbd></div>
+      <div class="cmdk__list" id="cmdkList" data-lenis-prevent></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
   <!-- ===== BACK TO TOP ===== -->
   <button class="to-top" id="toTop" aria-label="Back to top">
     <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="to-top__bg"/><circle cx="24" cy="24" r="21" class="to-top__ring" id="toTopRing"/></svg>
@@ -776,5 +1014,6 @@
   <script src="js/hero3d.js"></script>
   <script src="js/main.js"></script>
   <script src="js/features.js"></script>
+  <script src="js/extras.js"></script>
 </body>
 </html>

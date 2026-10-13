@@ -14,6 +14,13 @@ Official website of **Tech Dollez**, a digital studio for website design, web & 
 - **3-step Project Planner** that sends a full brief on WhatsApp
 - Cursor sparkle trail, particle bursts on clicks, text-scramble effects, rotating hero words
 - Shine-sweep hovers, dual marquees, scroll progress bar, back-to-top ring, interactive footer letters
+- **Portfolio** — 9 real projects with filters, 3D hover cards and case-study popups
+- **PrintX ERP interactive demo** — Sales, Production, Logistics, Finance & Admin tabs
+- **Before / After redesign slider**
+- **Free Website Audit** — real Google PageSpeed (Lighthouse) scores for any URL
+- **Playground industry presets** — Salon, Restaurant, Clinic, College, Shop, Startup
+- **Chat assistant** with instant answers that hands off to WhatsApp
+- **English / हिंदी toggle**, **Ctrl+K command palette**, founder section, free-concept offer, hidden easter egg
 - Floating WhatsApp button, fully responsive, reduced-motion support
 
 ## Structure
@@ -25,6 +32,8 @@ js/hero3d.js    # Three.js hero scene
 js/main.js      # preloader, scroll animations, core interactions
 js/features.js  # playground, planner, bento widgets, FX, scramble
 css/features.css
+js/extras.js    # portfolio, ERP demo, audit, chat, Hindi, Ctrl+K
+css/extras.css
 assets/favicon.svg
 ```
 
