@@ -1,0 +1,98 @@
+    <section class="section builder" id="playground">
+      <div class="container">
+        <h2 class="sr-only" data-hi="वेबसाइट बिल्डर">Website builder</h2>
+
+        <div class="builder__grid">
+          <div class="builder__controls">
+            <div class="ctrl ctrl--full">
+              <span class="ctrl__label">Start from your industry</span>
+              <div class="presets" id="presets">
+                <button type="button" data-preset="salon">💈 Salon</button>
+                <button type="button" data-preset="restaurant">🍽️ Restaurant</button>
+                <button type="button" data-preset="clinic">🩺 Clinic</button>
+                <button type="button" data-preset="college">🎓 College</button>
+                <button type="button" data-preset="shop">🛍️ Shop</button>
+                <button type="button" data-preset="startup">🚀 Startup</button>
+              </div>
+            </div>
+            <div class="ctrl">
+              <label class="ctrl__label" for="bName">Your business name</label>
+              <input id="bName" class="ctrl__input" maxlength="22" value="Your Brand" autocomplete="off" />
+            </div>
+            <div class="ctrl">
+              <span class="ctrl__label">Style</span>
+              <div class="seg" data-ctrl="style">
+                <button type="button" class="active" data-v="neon">Neon</button>
+                <button type="button" data-v="minimal">Minimal</button>
+                <button type="button" data-v="bold">Bold</button>
+                <button type="button" data-v="luxury">Luxury</button>
+              </div>
+            </div>
+            <div class="ctrl">
+              <span class="ctrl__label">Accent color</span>
+              <div class="swatches" data-ctrl="accent">
+                <button type="button" class="active" data-v="#7c5cff" style="--s:#7c5cff" aria-label="Violet"></button>
+                <button type="button" data-v="#00d4ff" style="--s:#00d4ff" aria-label="Cyan"></button>
+                <button type="button" data-v="#ff3d9a" style="--s:#ff3d9a" aria-label="Pink"></button>
+                <button type="button" data-v="#ffb547" style="--s:#ffb547" aria-label="Gold"></button>
+                <button type="button" data-v="#22e3a5" style="--s:#22e3a5" aria-label="Green"></button>
+                <button type="button" data-v="#ff5a4e" style="--s:#ff5a4e" aria-label="Red"></button>
+              </div>
+            </div>
+            <div class="ctrl">
+              <span class="ctrl__label">Font</span>
+              <div class="seg" data-ctrl="font">
+                <button type="button" class="active" data-v="modern">Modern</button>
+                <button type="button" data-v="classic">Classic</button>
+                <button type="button" data-v="tech">Tech</button>
+              </div>
+            </div>
+            <div class="ctrl ctrl--row">
+              <span class="ctrl__label">Mode</span>
+              <button type="button" class="toggle" id="bMode" aria-pressed="false" aria-label="Toggle light mode">
+                <span>Dark</span><span>Light</span><i></i>
+              </button>
+            </div>
+            <div class="ctrl">
+              <label class="ctrl__label" for="bRadius"><span class="rl">Corner roundness</span> <b id="bRadiusVal">14px</b></label>
+              <input type="range" id="bRadius" min="0" max="30" value="14" class="range" />
+            </div>
+            <div class="builder__actions">
+              <button type="button" class="btn btn--ghost btn--sm" id="bRandom">🎲 Surprise me</button>
+              <a class="btn btn--primary btn--sm" id="bOrder" href="https://wa.me/916260993724" target="_blank" rel="noopener">Build this for me</a>
+            </div>
+          </div>
+
+          <div class="builder__preview">
+            <div class="pv-frame">
+              <div class="pv-bar">
+                <span></span><span></span><span></span>
+                <div class="pv-url"><span id="pvUrl">yourbrand</span>.com</div>
+              </div>
+              <div class="pv" id="pv" data-style="neon" data-font="modern" data-mode="dark">
+                <div class="pv-nav">
+                  <b class="pv-brand"><i></i><span class="pv-name">Your Brand</span></b>
+                  <nav><span>Home</span><span>Services</span><span>About</span></nav>
+                  <span class="pv-btn pv-btn--sm">Contact</span>
+                </div>
+                <div class="pv-hero">
+                  <div class="pv-hero__text">
+                    <small class="pv-tag">New · Now online</small>
+                    <h3>Grow your business with <em class="pv-name">Your Brand</em></h3>
+                    <p>Beautiful, fast and built to turn visitors into customers.</p>
+                    <div class="pv-ctas"><span class="pv-btn">Get Started</span><span class="pv-btn pv-btn--ghost">Learn more</span></div>
+                  </div>
+                  <div class="pv-art"><i></i><i></i><i></i></div>
+                </div>
+                <div class="pv-cards">
+                  <div class="pv-card"><i></i><b>Lightning fast</b><span></span><span></span></div>
+                  <div class="pv-card"><i></i><b>Mobile ready</b><span></span><span></span></div>
+                  <div class="pv-card"><i></i><b>Secure</b><span></span><span></span></div>
+                </div>
+              </div>
+            </div>
+            <p class="builder__note">Live preview — every change updates instantly.</p>
+          </div>
+        </div>
+      </div>
+    </section>

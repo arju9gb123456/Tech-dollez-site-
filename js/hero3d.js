@@ -28,13 +28,18 @@
     });
   }
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
+  const lite = () => root.dataset.fx === 'lite';
+  let started = false;
   function start() {
+    if (started || lite()) return;   // "Lite" effects in the customizer = no 3D download at all
+    started = true;
     idle(() => {
       loadThree()
         .then(() => { init(); root.classList.add('webgl-ready'); })
         .catch(() => root.classList.add('no-webgl'));
     }, { timeout: 1200 });
   }
+  document.addEventListener('td:prefs', () => { if (!lite()) start(); });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 250));
   else setTimeout(start, 250);
 
@@ -101,7 +106,11 @@
     uTime: { value: 0 },
     uDistort: { value: 0.24 },
     uFreq: { value: 1.1 },
-    uHover: { value: 0 }
+    uHover: { value: 0 },
+    uC1: { value: new THREE.Color('#00d4ff') },
+    uC2: { value: new THREE.Color('#7c5cff') },
+    uC3: { value: new THREE.Color('#ff3d9a') },
+    uLight: { value: 0 }
   };
 
   const orbMat = new THREE.ShaderMaterial({
@@ -121,23 +130,27 @@
         gl_Position = projectionMatrix * mv;
       }`,
     fragmentShader: `
-      uniform float uTime;
+      uniform float uTime; uniform vec3 uC1; uniform vec3 uC2; uniform vec3 uC3; uniform float uLight;
       varying vec3 vNormal; varying vec3 vView; varying float vNoise;
-      vec3 palette(float t){
-        vec3 a = vec3(0.50, 0.45, 0.62);
-        vec3 b = vec3(0.50, 0.45, 0.40);
-        vec3 c = vec3(1.00, 1.00, 1.00);
-        vec3 d = vec3(0.55, 0.78, 0.92);
-        return a + b * cos(6.28318 * (c * t + d));
+      // palette follows the site's color theme (customizer)
+      vec3 pal(float t){
+        t = fract(t);
+        if (t < 0.3333) return mix(uC1, uC2, t * 3.0);
+        if (t < 0.6666) return mix(uC2, uC3, (t - 0.3333) * 3.0);
+        return mix(uC3, uC1, (t - 0.6666) * 3.0);
       }
       void main(){
         float fres = pow(1.0 - max(dot(vNormal, vView), 0.0), 2.6);
-        vec3 col = palette(vNoise * 0.35 + fres * 0.6 + uTime * 0.04);
-        // dark glass body with neon iridescent rim
-        vec3 c = col * (0.06 + fres * 1.25);
-        c += col * smoothstep(0.35, 1.2, vNoise) * 0.12;
+        vec3 col = pal(vNoise * 0.35 + fres * 0.6 + uTime * 0.04);
+        // dark theme: dark glass body with neon iridescent rim
+        vec3 dark = col * (0.06 + fres * 1.25);
+        dark += col * smoothstep(0.35, 1.2, vNoise) * 0.12;
+        // light theme: pearl body with colored rim
+        vec3 light = mix(vec3(0.97, 0.97, 1.0), col, 0.16 + fres * 0.84);
+        light = mix(light, col * 0.92, smoothstep(0.4, 1.2, vNoise) * 0.28);
+        vec3 c = mix(dark, light, uLight);
         float spec = pow(max(dot(reflect(-vView, vNormal), normalize(vec3(0.4, 0.8, 0.6))), 0.0), 32.0);
-        c += spec * 0.35;
+        c += spec * mix(0.35, 0.45, uLight);
         gl_FragColor = vec4(c, 1.0);
       }`
   });
@@ -194,6 +207,31 @@
   group.add(orb, ring1, ring2);
   scene.add(group, particles);
 
+  /* ---------- Follow the customizer (theme + palette) ---------- */
+  function readTheme() {
+    const cs = getComputedStyle(root);
+    const v = (n, f) => (cs.getPropertyValue(n).trim() || f);
+    const cols = [v('--cyan', '#00d4ff'), v('--violet', '#7c5cff'), v('--pink', '#ff3d9a'), v('--amber', '#ffb547')].map((c) => new THREE.Color(c));
+    const light = root.dataset.theme === 'light';
+    uniforms.uC1.value.copy(cols[0]); uniforms.uC2.value.copy(cols[1]); uniforms.uC3.value.copy(cols[2]);
+    ringMat.color.copy(cols[1]); ring2.material.color.copy(cols[0]);
+    ringMat.opacity = light ? 0.55 : 0.45; ring2.material.opacity = light ? 0.4 : 0.3;
+    const pc = cols.concat(light ? [] : [new THREE.Color('#ffffff')]);
+    for (let i = 0; i < COUNT; i++) {
+      const c = pc[i % pc.length];
+      col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+    }
+    pGeo.attributes.color.needsUpdate = true;
+    pMat.blending = light ? THREE.NormalBlending : THREE.AdditiveBlending;
+    pMat.opacity = light ? 0.55 : 0.8;
+    pMat.needsUpdate = true;
+    targetLight = light ? 1 : 0;
+  }
+  let targetLight = 0;
+  readTheme();
+  uniforms.uLight.value = targetLight;
+  document.addEventListener('td:prefs', () => requestAnimationFrame(readTheme));
+
   /* ---------- Sizing ---------- */
   function resize() {
     const w = canvas.clientWidth, h = canvas.clientHeight;
@@ -228,7 +266,8 @@
   const clock = new THREE.Clock();
   function tick() {
     requestAnimationFrame(tick);
-    if (!visible) return;
+    if (!visible || lite()) return;
+    uniforms.uLight.value += (targetLight - uniforms.uLight.value) * 0.08;
     const t = clock.getElapsedTime();
     uniforms.uTime.value = reduced ? 0 : t;
     uniforms.uHover.value += (hoverTarget - uniforms.uHover.value) * 0.05;

@@ -1,0 +1,19 @@
+    <section class="section audit" id="audit">
+      <div class="container">
+        <div class="audit__box">
+          <div class="audit__glow" aria-hidden="true"></div>
+          <form class="audit__form" id="auditForm" novalidate>
+            <div class="audit__input">
+              <span>🔗</span>
+              <input type="text" id="auditUrl" placeholder="yourwebsite.com" autocomplete="url" inputmode="url" />
+              <div class="audit__strat" id="auditStrat">
+                <button type="button" class="active" data-s="mobile">📱 Mobile</button>
+                <button type="button" data-s="desktop">🖥️ Desktop</button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn--primary" id="auditBtn"><span>Run free audit</span></button>
+          </form>
+          <div class="audit__result" id="auditResult" hidden></div>
+        </div>
+      </div>
+    </section>

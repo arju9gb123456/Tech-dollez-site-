@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{DESC}}" />
+  <meta name="robots" content="{{ROBOTS}}" />
+  <meta name="author" content="Arjun Ahirwar" />
+  <meta name="application-name" content="Tech Dollez" />
+  <link rel="canonical" href="{{CANON}}" />
+  <link rel="alternate" hreflang="en-IN" href="{{CANON}}" />
+  <link rel="alternate" hreflang="x-default" href="{{CANON}}" />
+
+  <!-- Local SEO -->
+  <meta name="geo.region" content="IN-MP" />
+  <meta name="geo.placename" content="Bhopal" />
+
+  <!-- Open Graph (WhatsApp, Facebook, LinkedIn previews) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Tech Dollez" />
+  <meta property="og:locale" content="en_IN" />
+  <meta property="og:url" content="{{CANON}}" />
+  <meta property="og:title" content="{{OG_TITLE}}" />
+  <meta property="og:description" content="{{OG_DESC}}" />
+  <meta property="og:image" content="https://techdoodlez.com/assets/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Tech Dollez — Websites, Apps &amp; Software. Bhopal, India." />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{OG_TITLE}}" />
+  <meta name="twitter:description" content="{{OG_DESC}}" />
+  <meta name="twitter:image" content="https://techdoodlez.com/assets/og-image.jpg" />
+
+  <!-- Icons & app -->
+  <meta name="theme-color" content="#05050a" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Visitor preferences (theme, colors, font, background, effects) — applied before first paint -->
+  <script>
+  (function () {
+    var d = document.documentElement, p = {};
+    try { p = JSON.parse(localStorage.getItem('td-prefs') || '{}') || {}; } catch (e) {}
+    var t = p.theme || 'dark';
+    if (t === 'auto') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    d.setAttribute('data-theme', t);
+    ['palette', 'font', 'bg', 'fx'].forEach(function (k) { if (p[k]) d.setAttribute('data-' + k, p[k]); });
+    try { if (sessionStorage.getItem('td-visited')) d.classList.add('no-preload'); } catch (e) {}
+    var F = { friendly: 'Poppins:wght@400;500;600;700;800', futuristic: 'Space+Grotesk:wght@400;500;600;700' };
+    if (F[p.font]) { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + F[p.font] + '&display=swap'; document.head.appendChild(l); }
+    var m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t === 'light' ? '#f6f6fb' : '#05050a';
+  })();
+  </script>
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+{{JSONLD}}
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preload" as="style" href="{{FONTS}}" />
+  <link rel="stylesheet" href="{{FONTS}}" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="{{FONTS}}" /></noscript>
+
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/features.css" />
+  <link rel="stylesheet" href="/css/extras.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/theme.css" />
+</head>
+<body class="page-{{KEY}}">

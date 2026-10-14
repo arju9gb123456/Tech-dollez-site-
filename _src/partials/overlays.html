@@ -1,0 +1,62 @@
+  <!-- ===== CASE STUDY MODAL ===== -->
+  <div class="modal" id="workModal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__panel" data-lenis-prevent role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <button class="modal__close" data-close aria-label="Close">✕</button>
+      <div class="modal__thumb" id="mThumb"></div>
+      <div class="modal__body">
+        <p class="modal__cat" id="mCat"></p>
+        <h3 id="mTitle"></h3>
+        <p class="modal__lead" id="mLead"></p>
+        <div class="modal__cols">
+          <div><b>The challenge</b><p id="mProblem"></p></div>
+          <div><b>What we built</b><ul id="mBuilt"></ul></div>
+        </div>
+        <div class="modal__stack" id="mStack"></div>
+        <a class="btn btn--primary" id="mCta" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6z"/></svg><span>Build something like this</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CHAT ASSISTANT ===== -->
+  <div class="chat" id="chat">
+    <button class="chat__launch" id="chatLaunch" aria-label="Open chat assistant">
+      <span class="chat__ico">💬</span><span class="chat__hello">Questions? Ask me!</span>
+    </button>
+    <div class="chat__panel" id="chatPanel" hidden>
+      <div class="chat__head">
+        <div class="chat__av"><img src="assets/favicon.svg" alt="" /><i></i></div>
+        <div><b>Tech Dollez Assistant</b><small>Instant answers · Arjun on WhatsApp</small></div>
+        <button class="chat__x" id="chatClose" aria-label="Close chat">✕</button>
+      </div>
+      <div class="chat__body" id="chatBody" data-lenis-prevent></div>
+      <div class="chat__quick" id="chatQuick"></div>
+      <form class="chat__form" id="chatForm">
+        <input id="chatInput" placeholder="Type your question…" autocomplete="off" />
+        <button type="submit" aria-label="Send">➤</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== COMMAND PALETTE ===== -->
+  <div class="cmdk" id="cmdk" hidden>
+    <div class="cmdk__backdrop" data-close></div>
+    <div class="cmdk__panel" role="dialog" aria-modal="true" aria-label="Command menu">
+      <div class="cmdk__search"><span>⌕</span><input id="cmdkInput" placeholder="Search sections and actions…" autocomplete="off" /><kbd>Esc</kbd></div>
+      <div class="cmdk__list" id="cmdkList" data-lenis-prevent></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="to-top" id="toTop" aria-label="Back to top">
+    <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" class="to-top__bg"/><circle cx="24" cy="24" r="21" class="to-top__ring" id="toTopRing"/></svg>
+    <svg class="to-top__arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <!-- ===== FLOATING WHATSAPP ===== -->
+  <a href="https://wa.me/916260993724?text=Hi%20Tech%20Dollez%2C%20I%20want%20to%20discuss%20a%20project." class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6zm5.4-7.3c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5c0-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg>
+  </a>
+

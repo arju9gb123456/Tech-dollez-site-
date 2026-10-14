@@ -1,0 +1,72 @@
+
+  <!-- ===== PRELOADER (first visit of the session only) ===== -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__inner">
+      <div class="preloader__logo">
+        <span>TECH</span><span class="grad-text">DOLLEZ</span>
+      </div>
+      <div class="preloader__bar"><span id="preloaderBar"></span></div>
+      <div class="preloader__count" id="preloaderCount">0</div>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#top">Skip to content</a>
+
+  <!-- ===== CURSOR + FX ===== -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <canvas class="fx-canvas" id="fxCanvas" aria-hidden="true"></canvas>
+  <div class="scroll-progress" aria-hidden="true"><i id="scrollProgress"></i></div>
+
+  <!-- ===== BACKGROUND ===== -->
+  <div class="bg-aurora" aria-hidden="true">
+    <span class="orb orb--1"></span>
+    <span class="orb orb--2"></span>
+    <span class="orb orb--3"></span>
+  </div>
+  <div class="bg-pattern" aria-hidden="true"></div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="/" class="logo" aria-label="Tech Dollez home">
+        <img src="/assets/favicon.svg" alt="Tech Dollez logo" width="34" height="34" />
+        <span>Tech<b>Dollez</b></span>
+      </a>
+      <nav class="nav__links" id="navLinks" aria-label="Main">
+        <a href="/services"{{A:services}} data-hi="सर्विसेज़">Services</a>
+        <a href="/work"{{A:work}} data-hi="हमारा काम">Work</a>
+        <a href="/playground"{{A:playground}} data-hi="प्लेग्राउंड">Playground</a>
+        <a href="/audit"{{A:audit}} data-hi="फ्री ऑडिट">Free Audit</a>
+        <a href="/about"{{A:about}} data-hi="हमारे बारे में">About</a>
+        <a href="/contact"{{A:contact}} data-hi="संपर्क">Contact</a>
+        <div class="nav__mobile-tools">
+          <button class="lang" type="button" aria-label="Switch language"><span class="on">EN</span><span>हि</span></button>
+          <button class="nav__mobile-cz" type="button" data-open-cz><span aria-hidden="true">🎨</span> <span data-hi="वेबसाइट कस्टमाइज़ करें">Customize website</span></button>
+          <a class="nav__mobile-wa" href="https://wa.me/916260993724?text=Hi%20Tech%20Dollez%2C%20I%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener">💬 WhatsApp +91 62609 93724</a>
+        </div>
+      </nav>
+      <div class="nav__tools">
+        <button class="lang lang--bar" type="button" aria-label="Switch language"><span class="on">EN</span><span>हि</span></button>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to light theme" title="Light / Dark">
+          <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+        </button>
+        <button class="icon-btn icon-btn--cz" type="button" data-open-cz aria-label="Customize this website" title="Customize colors, font &amp; theme">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 3.6-4 3.6h-1.8a1.9 1.9 0 0 0-1.4 3.2c.6.7.4 1.8-.6 2.6-.6.4-1.4.6-2.2.6z"/><circle cx="7.5" cy="11" r="1.3" fill="currentColor"/><circle cx="10.5" cy="7" r="1.3" fill="currentColor"/><circle cx="15.5" cy="7.5" r="1.3" fill="currentColor"/></svg>
+          <i class="icon-btn__dot" aria-hidden="true"></i>
+        </button>
+        <button class="cmdk-btn" id="cmdkBtn" type="button" aria-label="Open command menu"><kbd>Ctrl</kbd><kbd>K</kbd></button>
+      </div>
+      <a href="https://wa.me/916260993724?text=Hi%20Tech%20Dollez%2C%20I%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener" class="btn btn--glass btn--sm magnetic nav__cta">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6zm5.4-7.3c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5c0-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg>
+        <span data-hi="बात करें">Let's Talk</span>
+      </a>
+      <button class="nav__burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="top">

@@ -15,11 +15,10 @@
   const fx = window.__fx || { burst() {} };
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+  // "#id", "/page" or "/page#id" — scrolls when it's on this page, opens the page otherwise
   function scrollToEl(target) {
-    const el = typeof target === 'string' ? $(target) : target;
-    if (!el) return;
-    if (window.__lenis) window.__lenis.scrollTo(el, { offset: -20 });
-    else el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+    if (typeof target === 'string') { if (window.__goTo) window.__goTo(target); else location.href = target; return; }
+    if (target && window.__scrollToEl) window.__scrollToEl(target);
   }
 
   /* ---------- Toast ---------- */
@@ -44,7 +43,7 @@
       lead: 'A complete business operating system for a B2B custom printing & dropship company.',
       problem: 'Orders, production, shipping and payments were scattered across WhatsApp chats and spreadsheets — nothing had a single source of truth and deadlines slipped.',
       built: ['Role-based dashboards for Sales, Production, Logistics, Finance & Admin', 'Lead Management CRM with CSV import/export', 'SLA breach tracking & courier tracking links', 'Bulk label printing & Bluedart Excel export', 'GST validation, shipping reconciliation & staff help desk'],
-      stack: ['React', 'TypeScript', 'Supabase', 'PostgreSQL', 'Vercel'], tags: ['ERP', 'CRM', 'Logistics'], demo: '#erp'
+      stack: ['React', 'TypeScript', 'Supabase', 'PostgreSQL', 'Vercel'], tags: ['ERP', 'CRM', 'Logistics'], demo: '/work#erp'
     },
     {
       id: 'facultypro', f: 'software', feature: true, variant: 'faces',
@@ -201,39 +200,70 @@
   }
   const themeStyle = (t) => Object.entries(t).map(([k, v]) => `--${k}:${v}`).join(';');
 
+  const HI_PROJ = {
+    'printx-erp': ['सॉफ़्टवेयर · ERP', 'B2B कस्टम प्रिंटिंग बिज़नेस के लिए ऑर्डर से डिलीवरी तक का ERP — पाँच रोल-बेस्ड डैशबोर्ड, जो हर दिन कंपनी चलाते हैं।'],
+    facultypro: ['सॉफ़्टवेयर · एजुकेशन', 'फ़ैकल्टी डायरेक्टरी और HR सिस्टम — 778 फ़ैकल्टी प्रोफ़ाइल, फ़्लिप-कार्ड UI और सर्वरलेस AWS बैकएंड।'],
+    surveillance: ['सॉफ़्टवेयर · हेल्थकेयर', 'हॉस्पिटल के लिए बीमारी-निगरानी एनालिटिक्स — 92 ज़िलों के 3,300+ रिकॉर्ड मैप पर।'],
+    bazarville: ['वेबसाइट · ई-कैटलॉग', 'Apple जैसा साफ़ प्रोडक्ट शोरूम — WhatsApp बल्क इन्क्वायरी और अपने एडमिन पैनल के साथ।'],
+    cmch: ['वेबसाइट · हेल्थकेयर', 'होमपेज रीडिज़ाइन — पुरानी PHP साइट से मॉडर्न, तेज़ और रिस्पॉन्सिव फ़्रंट पेज तक।'],
+    nursing: ['वेबसाइट · एजुकेशन', 'टेबल और iframe लेआउट से साफ़, रिस्पॉन्सिव कॉलेज वेबसाइट तक — पेज-दर-पेज रीडिज़ाइन।'],
+    oyno: ['वेबसाइट · ऐप लॉन्च', 'OutyaNotOut की लॉन्च वेबसाइट — एक क्रिकेट रिव्यू ऐप जो 60 सेकंड के बफ़र से लाइव पल कैद करता है।'],
+    salon: ['वेबसाइट · लोकल बिज़नेस', 'कुबेरेश्वर धाम, सीहोर के एक हेयर सैलून के लिए मॉडर्न एनिमेटेड वेबसाइट।'],
+    edusmart: ['सॉफ़्टवेयर · स्कूल ERP', 'ऑल-इन-वन स्कूल मैनेजमेंट — एडमिशन, अटेंडेंस, फ़ीस, परीक्षा और पेरेंट ऐप।'],
+    freshcart: ['ऐप · ग्रॉसरी डिलीवरी', '10 मिनट ग्रॉसरी डिलीवरी ऐप — लाइव ऑर्डर ट्रैकिंग और स्टोर एडमिन डैशबोर्ड के साथ।'],
+    royalstay: ['वेबसाइट · हॉस्पिटैलिटी', 'रूम बुकिंग, फ़ोटो टूर और डायरेक्ट रिज़र्वेशन वाली लग्ज़री होटल वेबसाइट।'],
+    fitpulse: ['ऐप · फ़िटनेस', 'वर्कआउट प्लान, चेक-इन और ट्रेनर चैट वाला जिम मेंबरशिप ऐप।'],
+    legalease: ['वेबसाइट · प्रोफ़ेशनल', 'कंसल्टेशन बुकिंग और केस-टाइप पेज वाली भरोसेमंद लॉ फ़र्म वेबसाइट।'],
+    jarvis: ['लैब्स · AI', 'Ollama पर लोकल LLM से चलने वाला Iron Man जैसा AI असिस्टेंट इंटरफ़ेस।']
+  };
   const grid = $('#workGrid');
   if (grid) {
-    grid.innerHTML = PROJECTS.map((p) => `
-      <div class="wk${p.feature ? ' feature' : ''}" data-f="${p.f}" data-id="${p.id}" style="${themeStyle(p.theme)}" tabindex="0" role="button" aria-label="Open case study: ${esc(p.title)}">
+    const featured = grid.dataset.featured ? grid.dataset.featured.split(',') : null;
+    const list = featured ? featured.map((id) => PROJECTS.find((p) => p.id === id)).filter(Boolean) : PROJECTS;
+    function renderCards() {
+      const hi = window.__lang === 'hi';
+      grid.innerHTML = list.map((p) => {
+        const h = HI_PROJ[p.id];
+        return `
+      <div class="wk${p.feature ? ' feature' : ''}" data-f="${p.f}" data-id="${p.id}" style="${themeStyle(p.theme)};--accent:${p.theme.t1}" tabindex="0" role="button" aria-label="Open case study: ${esc(p.title)}">
         <div class="card__glow"></div>
-        <div class="wk__thumb">${thumb(p)}${p.live ? '<span class="wk__live"><i></i>Live in production</span>' : ''}${p.concept ? '<span class="wk__concept">✦ Concept design</span>' : ''}<span class="wk__open">↗</span></div>
+        <div class="wk__thumb">${thumb(p)}${p.live ? `<span class="wk__live"><i></i>${hi ? 'लाइव प्रोडक्शन में' : 'Live in production'}</span>` : ''}${p.concept ? `<span class="wk__concept">✦ ${hi ? 'कॉन्सेप्ट डिज़ाइन' : 'Concept design'}</span>` : ''}<span class="wk__open">↗</span></div>
         <div class="wk__body">
-          <span class="wk__cat">${esc(p.cat)}</span>
+          <span class="wk__cat">${esc(hi && h ? h[0] : p.cat)}</span>
           <h3>${esc(p.title)}</h3>
-          <p>${esc(p.short)}</p>
+          <p>${esc(hi && h ? h[1] : p.short)}</p>
           <div class="wk__tags">${p.tags.map((t) => `<span>${esc(t)}</span>`).join('')}</div>
         </div>
-      </div>`).join('');
+      </div>`;
+      }).join('');
+      const active = $('#workFilters button.active');
+      if (active && active.dataset.f !== 'all') $$('.wk', grid).forEach((c) => c.classList.toggle('is-hidden', c.dataset.f !== active.dataset.f));
+    }
+    renderCards();
     grid.style.gridAutoFlow = 'dense';
+    document.addEventListener('td:lang', renderCards);
 
-    // hover glow + subtle tilt
-    $$('.wk', grid).forEach((c) => {
-      c.addEventListener('pointermove', (e) => {
-        const r = c.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-        c.style.setProperty('--mx', px * 100 + '%');
-        c.style.setProperty('--my', py * 100 + '%');
-        if (finePointer && !reduced) c.style.transform = `rotateX(${(0.5 - py) * 6}deg) rotateY(${(px - 0.5) * 8}deg) translateY(-4px)`;
-      });
-      c.addEventListener('pointerleave', () => { c.style.transform = ''; });
-      c.addEventListener('click', () => openModal(c.dataset.id));
-      c.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(c.dataset.id); } });
-      // card glow uses .card__glow styles; give it accent
-      c.style.setProperty('--accent', c.style.getPropertyValue('--t1'));
+    // hover glow + subtle tilt, open case study (delegated so re-renders keep working)
+    grid.addEventListener('pointermove', (e) => {
+      const c = e.target.closest('.wk'); if (!c) return;
+      const r = c.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      c.style.setProperty('--mx', px * 100 + '%');
+      c.style.setProperty('--my', py * 100 + '%');
+      if (finePointer && !reduced && document.documentElement.dataset.fx !== 'lite') c.style.transform = `rotateX(${(0.5 - py) * 6}deg) rotateY(${(px - 0.5) * 8}deg) translateY(-4px)`;
+    });
+    grid.addEventListener('pointerout', (e) => {
+      const c = e.target.closest('.wk');
+      if (c && !c.contains(e.relatedTarget)) c.style.transform = '';
+    });
+    grid.addEventListener('click', (e) => { const c = e.target.closest('.wk'); if (c) openModal(c.dataset.id); });
+    grid.addEventListener('keydown', (e) => {
+      const c = e.target.closest('.wk');
+      if (c && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openModal(c.dataset.id); }
     });
 
-    // filters
-    $('#workFilters').addEventListener('click', (e) => {
+    const filters = $('#workFilters');
+    if (filters) filters.addEventListener('click', (e) => {
       const b = e.target.closest('button');
       if (!b) return;
       $$('#workFilters button').forEach((x) => x.classList.toggle('active', x === b));
@@ -277,7 +307,7 @@
         demoBtn.style.marginLeft = '10px';
         cta.after(demoBtn);
       }
-      demoBtn.textContent = 'Try the live demo ↓';
+      demoBtn.textContent = window.__lang === 'hi' ? 'लाइव डेमो देखें ↓' : 'Try the live demo ↓';
       demoBtn.onclick = () => { closeModal(); setTimeout(() => scrollToEl(p.demo), 250); };
     } else if (demoBtn) demoBtn.remove();
     modal.hidden = false;
@@ -543,19 +573,20 @@
     let opened = false;
     const QUICK = [['🛠️ Services', 'What services do you offer?'], ['💰 Pricing', 'How much does a website cost?'], ['⏱️ Timeline', 'How long does it take?'], ['📁 Our work', 'Show me your work'], ['🔍 Free audit', 'Can you audit my website?'], ['💬 Talk to Arjun', 'I want to talk to Arjun']];
     const R = [
+      [/\b(dark|light) ?(mode|theme)?\b(?!house)|\btheme\b|colou?r|\bfonts?\b|customi[sz]e|\brang\b|\bthim\b/, () => ({ t: 'You can make this website yours! Tap the 🎨 <b>Customize</b> button in the top bar to switch Dark / Light theme, color palette, font, background graphics and effects — it stays saved on every page.', act: 'cz', goLabel: 'Open customizer' })],
       [/^(hi+|hello|hey|namaste|hlo|helo|yo)\b/, () => ({ t: 'Hey! 👋 Great to see you here. Ask me anything about websites, apps or software — or tap a quick option below.' })],
       [/thank|thanks|shukriya|dhanyavad|great|awesome|nice/, () => ({ t: 'Happy to help! 😊 Whenever you’re ready, Arjun is just one WhatsApp message away.', wa: 'Hi Tech Dollez! I want to discuss a project.' })],
       [/price|cost|rate|charge|kitna|kitne ka|paisa|paise|budget|fee|₹|quote|quotation/, () => ({ t: 'Every project is custom, so pricing depends on pages, features and timeline. Share what you need and you’ll get a clear quote on WhatsApp — no hidden costs. 🎁 Not sure yet? You can also get a <b>free homepage concept</b>.', wa: 'Hi Tech Dollez! I want a quote for my project.' })],
       [/how long|time|days|din|week|timeline|deadline|jaldi|urgent|kab tak/, () => ({ t: 'A standard business website usually takes <b>1–3 weeks</b>. Apps and custom software are planned in milestones — you get a clear timeline before we start, plus regular previews.' })],
-      [/audit|speed|slow|score|lighthouse|performance/, () => ({ t: 'Yes! Try our <b>free website audit</b> — it runs a real Google Lighthouse test on any site in seconds.', go: '#audit', goLabel: 'Open free audit' })],
-      [/work|portfolio|project|example|sample|client|banaya|previous/, () => ({ t: 'We’ve built an ERP that runs a printing company, hospital analytics dashboards, a faculty HR system on AWS, and websites for colleges, salons and app launches.', go: '#work', goLabel: 'See our work' })],
-      [/erp|crm|software|dashboard|billing|inventory|system|admin panel/, () => ({ t: 'Custom software is our specialty — ERPs, CRMs, dashboards, billing & automation built exactly around how your business runs. Check out the live <b>PrintX ERP</b> demo on this page!', go: '#erp', goLabel: 'Try ERP demo' })],
+      [/audit|speed|slow|score|lighthouse|performance/, () => ({ t: 'Yes! Try our <b>free website audit</b> — it runs a real Google Lighthouse test on any site in seconds.', go: '/audit', goLabel: 'Open free audit' })],
+      [/work|portfolio|project|example|sample|client|banaya|previous/, () => ({ t: 'We’ve built an ERP that runs a printing company, hospital analytics dashboards, a faculty HR system on AWS, and websites for colleges, salons and app launches.', go: '/work', goLabel: 'See our work' })],
+      [/erp|crm|software|dashboard|billing|inventory|system|admin panel/, () => ({ t: 'Custom software is our specialty — ERPs, CRMs, dashboards, billing & automation built exactly around how your business runs. Check out the live <b>PrintX ERP</b> demo!', go: '/work#erp', goLabel: 'Try ERP demo' })],
       [/\bapp\b|android|ios|mobile app|play ?store/, () => ({ t: 'We build smooth Android & iOS apps with clean, easy interfaces — plus the launch website and store pages.', wa: 'Hi Tech Dollez! I want to build a mobile app.' })],
-      [/redesign|old (site|website)|purani|update (my )?(site|website)|revamp/, () => ({ t: 'Redesigns are our favorite! We make old sites fast, modern and mobile-friendly while keeping your content and SEO safe. Drag the before/after slider to see the difference.', go: '#compare', goLabel: 'See before / after' })],
+      [/redesign|old (site|website)|purani|update (my )?(site|website)|revamp/, () => ({ t: 'Redesigns are our favorite! We make old sites fast, modern and mobile-friendly while keeping your content and SEO safe. Drag the before/after slider to see the difference.', go: '/work#compare', goLabel: 'See before / after' })],
       [/seo|google|rank|search/, () => ({ t: 'We handle technical SEO, speed optimization and Google setup so customers can actually find you.' })],
       [/domain|hosting|email|server|ssl/, () => ({ t: 'We help you buy and set up your domain, hosting, SSL and business email — everything ready to go live.' })],
-      [/service|offer|what do you do|kya karte|kya kya/, () => ({ t: 'We do: 🌐 Website design & development, 📱 App development, ⚙️ Custom software & ERP, ♻️ Website redesign, 🚀 SEO & growth, 🎨 UI/UX.', go: '#services', goLabel: 'View services' })],
-      [/design|playground|look|style|theme/, () => ({ t: 'Want to play designer? Our <b>live Playground</b> lets you pick a style, color and font and see your website change instantly.', go: '#playground', goLabel: 'Open playground' })],
+      [/service|offer|what do you do|kya karte|kya kya/, () => ({ t: 'We do: 🌐 Website design & development, 📱 App development, ⚙️ Custom software & ERP, ♻️ Website redesign, 🚀 SEO & growth, 🎨 UI/UX.', go: '/services', goLabel: 'View services' })],
+      [/playground|design my|look like|style/, () => ({ t: 'Want to play designer? Our <b>live Playground</b> lets you pick a style, color and font and see your website change instantly.', go: '/playground', goLabel: 'Open playground' })],
       [/contact|whatsapp|call|number|phone|talk|baat|arjun|human|person/, () => ({ t: 'You can reach Arjun directly on WhatsApp or call <b>+91 62609 93724</b>. He usually replies fast!', wa: 'Hi Arjun! I came from the Tech Dollez website and want to talk.' })],
       [/hindi|हिंदी|hinglish/, () => ({ t: 'Haan bilkul! 😊 Aap Hindi ya Hinglish mein baat kar sakte hain — WhatsApp pe Arjun se seedha baat karein.', wa: 'Namaste! Mujhe website/app banwani hai.' })]
     ];
@@ -579,6 +610,7 @@
         let html = r.t;
         if (r.wa) html += `<br><a class="msg__wa" href="${waLink(r.wa)}" target="_blank" rel="noopener">💬 Chat on WhatsApp</a>`;
         if (r.go) html += `<br><a class="msg__wa" style="background:var(--violet)" href="${r.go}" data-go="${r.go}">${r.goLabel} →</a>`;
+        if (r.act === 'cz') html += `<br><button type="button" class="msg__wa" style="background:var(--violet)" data-open-cz>${r.goLabel} →</button>`;
         add(html, 'bot');
       }, 650 + Math.random() * 500);
     }
@@ -618,8 +650,6 @@
      7. LANGUAGE (EN / हिंदी)
      ======================================================= */
   const HI = [
-    ['.nav__links a[href="#services"]', 'सर्विसेज़'], ['.nav__links a[href="#work"]', 'हमारा काम'], ['.nav__links a[href="#playground"]', 'प्लेग्राउंड'],
-    ['.nav__links a[href="#audit"]', 'फ्री ऑडिट'], ['.nav__links a[href="#about"]', 'हमारे बारे में'], ['.nav__links a[href="#contact"]', 'संपर्क'],
     ['.hero .pill', '<span class="pill__dot"></span> Tech Dollez · वेब और ऐप स्टूडियो · भोपाल'],
     ['.hero .line__inner', ['हम बनाते हैं', 'आपकी डिजिटल दुनिया।']],
     ['.rot-pre', 'हमारी खासियत:'],
@@ -694,9 +724,6 @@
     ['.chips[data-name="timeline"] .chip', ['⚡ जल्द से जल्द', '📅 एक महीने में', '🌿 कोई जल्दी नहीं']],
     ['#planner .field label', ['आपका नाम', 'फ़ोन (वैकल्पिक)', 'कुछ और बताना है? (वैकल्पिक)']],
     ['#plBack', '← पीछे'], ['#plNext', 'आगे →'], ['#plSend span', 'WhatsApp पर भेजें'],
-    ['.footer__seo p', '<b>Tech Dollez</b> <b>भोपाल, मध्य प्रदेश</b> की एक वेबसाइट डिज़ाइन और ऐप डेवलपमेंट कंपनी है। हम पूरे भारत के क्लाइंट्स के लिए प्रीमियम बिज़नेस वेबसाइट, Android और iOS ऐप, कस्टम सॉफ़्टवेयर, ERP और CRM सिस्टम, ई-कॉमर्स स्टोर और वेबसाइट रीडिज़ाइन बनाते हैं — SEO, होस्टिंग और लगातार सपोर्ट के साथ।'],
-    ['.footer__services a', ['भोपाल में वेबसाइट डिज़ाइन', 'वेब डेवलपमेंट', 'ऐप डेवलपमेंट', 'कस्टम सॉफ़्टवेयर और ERP', 'वेबसाइट रीडिज़ाइन', 'फ्री वेबसाइट ऑडिट']],
-    ['.footer__links a', ['सर्विसेज़', 'प्रोसेस', 'प्लान्स', 'संपर्क']],
     ['.chat__hello', 'सवाल? मुझसे पूछें!']
   ];
   const HI_ROT = ['वेबसाइट्स', 'मोबाइल ऐप्स', 'सॉफ़्टवेयर', 'रीडिज़ाइन', 'ब्रांड्स', 'एक्सपीरियंस'];
@@ -719,6 +746,12 @@
         if (el.dataset.txt !== undefined) el.dataset.txt = el.textContent;
       });
     });
+    // any element can carry its Hindi text inline: <p data-hi="...">English</p>
+    $$('[data-hi]').forEach((el) => {
+      if (!enStore.has(el)) enStore.set(el, el.innerHTML);
+      el.innerHTML = l === 'hi' ? el.getAttribute('data-hi') : enStore.get(el);
+      if (el.dataset.txt !== undefined) el.dataset.txt = el.textContent;
+    });
     if (statementEl) {
       const words = (l === 'hi' ? HI_STATEMENT : EN_STATEMENT).split(/\s+/);
       statementEl.innerHTML = words.map((w) => `<span class="w" style="opacity:1">${esc(w)}</span>`).join(' ');
@@ -728,16 +761,17 @@
     document.dispatchEvent(new CustomEvent('td:lang', { detail: l }));
     const rot = $('#rotator');
     if (rot) rot.textContent = l === 'hi' ? HI_ROT[0] : 'websites';
-    $$('#langToggle span').forEach((s, i) => s.classList.toggle('on', (i === 1) === (l === 'hi')));
+    $$('.lang').forEach((btn) => $$('span', btn).forEach((s, i) => s.classList.toggle('on', (i === 1) === (l === 'hi'))));
     try { localStorage.setItem('td-lang', l); } catch (e) { /* storage unavailable */ }
     if (hasGSAP) setTimeout(() => ScrollTrigger.refresh(), 100);
   }
   window.__setLang = setLang;
-  $('#langToggle').addEventListener('click', () => {
+  window.__getLang = () => lang;
+  $$('.lang').forEach((btn) => btn.addEventListener('click', () => {
     setLang(lang === 'en' ? 'hi' : 'en');
     toast(lang === 'hi' ? 'भाषा: हिंदी 🇮🇳' : 'Language: English');
-  });
-  try { if (localStorage.getItem('td-lang') === 'hi') setTimeout(() => setLang('hi'), 50); } catch (e) { /* storage unavailable */ }
+  }));
+  try { if (localStorage.getItem('td-lang') === 'hi') setLang('hi'); } catch (e) { /* storage unavailable */ }
 
   /* =======================================================
      8. COMMAND PALETTE (Ctrl / ⌘ + K)
@@ -746,16 +780,21 @@
   if (cmdk) {
     const list = $('#cmdkList'), input = $('#cmdkInput');
     const ITEMS = [
-      ['Go to', '🏠', 'Home', '#top'], ['Go to', '🛠️', 'Services', '#services'], ['Go to', '📁', 'Our Work', '#work'],
-      ['Go to', '🧾', 'PrintX ERP demo', '#erp'], ['Go to', '🎨', 'Design Playground', '#playground'], ['Go to', '♻️', 'Before / After', '#compare'],
-      ['Go to', '🧭', 'Process', '#process'], ['Go to', '⚡', 'Why Tech Dollez', '#why'], ['Go to', '🔍', 'Free Website Audit', '#audit'],
-      ['Go to', '👋', 'About Arjun', '#about'], ['Go to', '📦', 'Plans', '#plans'], ['Go to', '❓', 'FAQ', '#faq'], ['Go to', '✉️', 'Contact', '#contact'],
+      ['Pages', '🏠', 'Home', '/'], ['Pages', '🛠️', 'Services', '/services'], ['Pages', '📁', 'Our Work', '/work'],
+      ['Pages', '🎨', 'Design Playground', '/playground'], ['Pages', '🔍', 'Free Website Audit', '/audit'],
+      ['Pages', '👋', 'About Arjun', '/about'], ['Pages', '✉️', 'Contact', '/contact'],
+      ['Jump to', '🌐', 'Website Design', '/services#website-design'], ['Jump to', '📱', 'App Development', '/services#app-development'],
+      ['Jump to', '⚙️', 'Custom Software & ERP', '/services#custom-software'], ['Jump to', '♻️', 'Website Redesign', '/services#website-redesign'],
+      ['Jump to', '🧭', 'Process', '/services#process'], ['Jump to', '📦', 'Plans', '/services#plans'], ['Jump to', '❓', 'FAQ', '/services#faq'],
+      ['Jump to', '🧾', 'PrintX ERP demo', '/work#erp'], ['Jump to', '↔️', 'Before / After', '/work#compare'],
+      ['Actions', '🎨', 'Customize colors, font & theme', () => window.__openCz && window.__openCz()],
+      ['Actions', '🌗', 'Toggle light / dark theme', () => window.__toggleTheme && window.__toggleTheme()],
       ['Actions', '💬', 'Chat on WhatsApp', () => window.open(waLink('Hi Tech Dollez! I want to discuss a project.'), '_blank', 'noopener'), 'WhatsApp'],
       ['Actions', '📞', 'Call Arjun', () => { window.location.href = 'tel:+916260993724'; }, '+91 62609 93724'],
       ['Actions', '📋', 'Copy phone number', () => { navigator.clipboard && navigator.clipboard.writeText('+91 6260993724').then(() => toast('Phone number copied ✓')).catch(() => toast('+91 62609 93724')); }],
       ['Actions', '🤖', 'Open chat assistant', () => window.__openChat && window.__openChat()],
-      ['Actions', '🎲', 'Surprise me with a design', () => { scrollToEl('#playground'); setTimeout(() => $('#bRandom') && $('#bRandom').click(), 900); }],
-      ['Actions', '🌐', 'Switch language (EN / हिंदी)', () => $('#langToggle').click()]
+      ['Actions', '🎲', 'Surprise me with a design', () => { if ($('#bRandom')) { scrollToEl($('#playground')); setTimeout(() => $('#bRandom').click(), 700); } else location.href = '/playground?surprise=1'; }],
+      ['Actions', '🌐', 'Switch language (EN / हिंदी)', () => $('.lang') && $('.lang').click()]
     ];
     let filtered = ITEMS, sel = 0;
     function render() {
@@ -830,18 +869,104 @@
   }
 
   /* =======================================================
-     10. ENTRANCE ANIMATIONS
+     10. SERVICES EXPLORER (tabs on /services)
+     ======================================================= */
+  const svc = $('.svc');
+  if (svc) {
+    const tabs = $$('.svc__tab', svc);
+    const select = (id, focus) => {
+      const tab = tabs.find((t) => t.dataset.svc === id);
+      if (!tab) return false;
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.dataset.svc);
+        panel.classList.toggle('active', on);
+      });
+      if (focus) tab.focus();
+      // keep the active chip visible in the horizontal tab bar on phones
+      if (window.innerWidth <= 900) tab.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+      return true;
+    };
+    tabs.forEach((t) => t.addEventListener('click', () => {
+      select(t.dataset.svc);
+      if (history.replaceState) history.replaceState(null, '', '#' + t.dataset.svc);
+      if (window.innerWidth <= 900) scrollToEl(svc);
+    }));
+    $('.svc__tabs', svc).addEventListener('keydown', (e) => {
+      const i = tabs.findIndex((t) => t.classList.contains('active'));
+      let n = -1;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') n = (i + 1) % tabs.length;
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+      if (n > -1) { e.preventDefault(); select(tabs[n].dataset.svc, true); }
+    });
+    // /services#app-development opens that tab
+    if (location.hash) select(decodeURIComponent(location.hash.slice(1)));
+    document.addEventListener('td:goto', (e) => select(e.detail));
+  }
+
+  // service cards on the home page open their detail on /services
+  $$('.card').forEach((c) => {
+    const link = $('.card__link', c);
+    if (link) c.addEventListener('click', (e) => { if (!e.target.closest('a')) link.click(); });
+  });
+
+  /* =======================================================
+     11. HOME — PLAYGROUND TEASER (changes by itself)
+     ======================================================= */
+  const tz = $('#pvTeaser');
+  if (tz) {
+    const order = ['salon', 'startup', 'restaurant', 'college', 'clinic', 'shop'];
+    let ti = 0;
+    const apply = (key) => {
+      const p = PRESETS[key];
+      tz.dataset.style = p.style; tz.dataset.font = p.font; tz.dataset.mode = p.mode;
+      tz.style.setProperty('--a', p.accent);
+      tz.style.setProperty('--r', p.radius + 'px');
+      if (p.style !== 'luxury') tz.style.setProperty('--a2', ({ '#7c5cff': '#ff3d9a', '#00d4ff': '#7c5cff', '#ff3d9a': '#ffb547', '#ffb547': '#ff5a4e', '#22e3a5': '#00d4ff', '#ff5a4e': '#ff3d9a' })[p.accent] || '#ff3d9a');
+      else tz.style.removeProperty('--a2');
+      $('.pv-tag', tz).textContent = p.tag;
+      $('.pv-hero h3', tz).innerHTML = p.h;
+      $$('.pv-name', tz).forEach((n) => { n.textContent = p.name; });
+      $('.pv-hero p', tz).textContent = p.p;
+      const c = $$('.pv-ctas .pv-btn', tz); c[0].textContent = p.c1; c[1].textContent = p.c2;
+      $$('.pv-nav nav span', tz).forEach((sp, i) => { sp.textContent = p.nav[i]; });
+      $$('.pv-card b', tz).forEach((b, i) => { b.textContent = p.cards[i]; });
+      const url = $('#tzUrl'); if (url) url.textContent = p.name.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    };
+    apply(order[0]);
+    let visible = false;
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(tz);
+    if (!reduced) setInterval(() => {
+      if (!visible || document.hidden) return;
+      ti = (ti + 1) % order.length;
+      apply(order[ti]);
+    }, 2600);
+  }
+
+  /* =======================================================
+     12. ENTRANCE ANIMATIONS
      ======================================================= */
   if (hasGSAP && !reduced) {
-    gsap.from('#workGrid .wk', { y: 70, opacity: 0, rotateX: -12, duration: 1.1, stagger: 0.08, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '#workGrid', start: 'top 82%' } });
-    gsap.from('.erp__list li', { x: 40, opacity: 0, duration: 0.9, stagger: 0.07, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '.erp__list', start: 'top 85%' } });
-    gsap.from('.erp__app', { y: 80, opacity: 0, scale: 0.94, rotateX: 10, duration: 1.4, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '.erp__app', start: 'top 85%' } });
-    gsap.from('.ba', { y: 60, opacity: 0, scale: 0.95, duration: 1.3, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '.ba', start: 'top 85%' } });
-    gsap.from('.audit__form', { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '.audit__form', start: 'top 88%' } });
-    gsap.from('.about__card', { x: -60, opacity: 0, rotateY: 14, duration: 1.3, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '.about__grid', start: 'top 78%' } });
-    gsap.from('.about__timeline > div', { y: 40, opacity: 0, duration: 1, stagger: 0.08, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '.about__timeline', start: 'top 88%' } });
-    gsap.from('.band__inner', { y: 50, opacity: 0, scale: 0.96, duration: 1.2, ease: 'expo.out', clearProps: 'transform,opacity', scrollTrigger: { trigger: '.band', start: 'top 85%' } });
-    gsap.from('.chat__launch', { x: -80, opacity: 0, duration: 1, delay: 3.2, ease: 'expo.out', clearProps: 'transform,opacity' });
+    const from = (sel, vars, trig) => {
+      if (!$(trig || sel)) return;
+      const { start, ...rest } = vars;
+      gsap.from(sel, Object.assign({ ease: 'expo.out', clearProps: 'transform,opacity' }, rest, { scrollTrigger: { trigger: trig || sel, start: start || 'top 85%' } }));
+    };
+    from('#workGrid .wk', { y: 70, opacity: 0, rotateX: -12, duration: 1.1, stagger: 0.08, start: 'top 82%' }, '#workGrid');
+    from('.erp__list li', { x: 40, opacity: 0, duration: 0.9, stagger: 0.07 }, '.erp__list');
+    from('.erp__app', { y: 80, opacity: 0, scale: 0.94, rotateX: 10, duration: 1.4 });
+    from('.ba', { y: 60, opacity: 0, scale: 0.95, duration: 1.3 });
+    from('.audit__form', { y: 40, opacity: 0, duration: 1.1, start: 'top 92%' });
+    from('.about__card', { x: -60, opacity: 0, rotateY: 14, duration: 1.3, start: 'top 85%' }, '.about__grid');
+    from('.about__timeline > div', { y: 40, opacity: 0, duration: 1, stagger: 0.08, start: 'top 90%' }, '.about__timeline');
+    from('.band__inner', { y: 50, opacity: 0, scale: 0.96, duration: 1.2 }, '.band');
+    from('.svc__wrap', { y: 50, opacity: 0, duration: 1.2, start: 'top 90%' });
+    from('.teaser__preview', { y: 70, rotateX: 14, opacity: 0, duration: 1.3 }, '.teaser');
+    from('.check', { y: 40, opacity: 0, duration: 1, stagger: 0.08 }, '.checks__grid');
+    gsap.from('.chat__launch', { x: -80, opacity: 0, duration: 1, delay: document.documentElement.classList.contains('no-preload') ? 1.2 : 3.2, ease: 'expo.out', clearProps: 'transform,opacity' });
     ScrollTrigger.refresh();
   }
 })();

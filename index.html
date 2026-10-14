@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -37,12 +37,28 @@
 
   <!-- Icons & app -->
   <meta name="theme-color" content="#05050a" />
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-  <link rel="manifest" href="site.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 
-  <!-- Structured data: business, founder, website, FAQ -->
+  <!-- Visitor preferences (theme, colors, font, background, effects) — applied before first paint -->
+  <script>
+  (function () {
+    var d = document.documentElement, p = {};
+    try { p = JSON.parse(localStorage.getItem('td-prefs') || '{}') || {}; } catch (e) {}
+    var t = p.theme || 'dark';
+    if (t === 'auto') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    d.setAttribute('data-theme', t);
+    ['palette', 'font', 'bg', 'fx'].forEach(function (k) { if (p[k]) d.setAttribute('data-' + k, p[k]); });
+    try { if (sessionStorage.getItem('td-visited')) d.classList.add('no-preload'); } catch (e) {}
+    var F = { friendly: 'Poppins:wght@400;500;600;700;800', futuristic: 'Space+Grotesk:wght@400;500;600;700' };
+    if (F[p.font]) { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + F[p.font] + '&display=swap'; document.head.appendChild(l); }
+    var m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t === 'light' ? '#f6f6fb' : '#05050a';
+  })();
+  </script>
+
+  <!-- Structured data -->
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -57,7 +73,9 @@
       "alternateName": [
         "TechDollez",
         "Tech Dollez Bhopal",
-        "Techdollez"
+        "Techdollez",
+        "Tech Doodlez",
+        "techdoodlez"
       ],
       "url": "https://techdoodlez.com/",
       "logo": {
@@ -126,6 +144,7 @@
               "@type": "Service",
               "name": "Website Design",
               "description": "Premium, conversion-focused website design with motion and 3D.",
+              "url": "https://techdoodlez.com/services#website-design",
               "provider": {
                 "@id": "https://techdoodlez.com/#organization"
               },
@@ -138,6 +157,7 @@
               "@type": "Service",
               "name": "Web Development",
               "description": "Fast, secure and scalable websites and web apps.",
+              "url": "https://techdoodlez.com/services#web-development",
               "provider": {
                 "@id": "https://techdoodlez.com/#organization"
               },
@@ -150,6 +170,7 @@
               "@type": "Service",
               "name": "App Development",
               "description": "Android and iOS mobile app development.",
+              "url": "https://techdoodlez.com/services#app-development",
               "provider": {
                 "@id": "https://techdoodlez.com/#organization"
               },
@@ -162,6 +183,7 @@
               "@type": "Service",
               "name": "Custom Software & ERP",
               "description": "ERPs, CRMs, dashboards and automation tools built for your business.",
+              "url": "https://techdoodlez.com/services#custom-software",
               "provider": {
                 "@id": "https://techdoodlez.com/#organization"
               },
@@ -174,6 +196,7 @@
               "@type": "Service",
               "name": "Website Redesign",
               "description": "Modern, fast, mobile-first redesigns of old websites.",
+              "url": "https://techdoodlez.com/services#website-redesign",
               "provider": {
                 "@id": "https://techdoodlez.com/#organization"
               },
@@ -186,6 +209,7 @@
               "@type": "Service",
               "name": "SEO & Growth",
               "description": "Technical SEO, performance tuning and analytics.",
+              "url": "https://techdoodlez.com/services#seo",
               "provider": {
                 "@id": "https://techdoodlez.com/#organization"
               },
@@ -194,30 +218,6 @@
           }
         ]
       }
-    },
-    {
-      "@type": "Person",
-      "@id": "https://techdoodlez.com/#founder",
-      "name": "Arjun Ahirwar",
-      "jobTitle": "Founder & Full-Stack Developer",
-      "worksFor": {
-        "@id": "https://techdoodlez.com/#organization"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Bhopal",
-        "addressRegion": "Madhya Pradesh",
-        "addressCountry": "IN"
-      },
-      "knowsAbout": [
-        "React",
-        "Node.js",
-        "TypeScript",
-        "Supabase",
-        "MongoDB",
-        "AWS",
-        "Three.js"
-      ]
     },
     {
       "@type": "WebSite",
@@ -245,72 +245,34 @@
       "about": {
         "@id": "https://techdoodlez.com/#organization"
       },
+      "inLanguage": "en-IN",
       "primaryImageOfPage": {
         "@type": "ImageObject",
         "url": "https://techdoodlez.com/assets/og-image.jpg"
-      },
-      "inLanguage": "en-IN"
+      }
     },
     {
-      "@type": "FAQPage",
-      "@id": "https://techdoodlez.com/#faq",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "What is Tech Dollez?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Tech Dollez is a digital studio based in Bhopal, Madhya Pradesh, founded by Arjun Ahirwar. We design and develop websites, mobile apps, custom software and ERPs, and redesign old websites for businesses across India."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work with clients outside Bhopal?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. We're based in Bhopal but work with businesses all over India — everything from the first call to the final launch can happen online over WhatsApp and video calls."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How long does a website take?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A standard business website usually takes 1–3 weeks depending on pages and features. Apps and custom software are planned in milestones — you'll get a clear timeline before we start."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can you redesign my existing website?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes. We modernise the design, speed it up, make it fully mobile-friendly and keep your content and SEO intact."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you provide domain and hosting?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We help you buy and set up your domain, hosting and business email so everything is ready to go live."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Will I be able to update content myself?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "If you need it, we add a simple admin panel so you can update text, images and products without touching code."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What about support after launch?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We stay with you after launch — fixes, updates and new features are just a WhatsApp message away."
-          }
-        }
+      "@type": "Person",
+      "@id": "https://techdoodlez.com/#founder",
+      "name": "Arjun Ahirwar",
+      "jobTitle": "Founder & Full-Stack Developer",
+      "worksFor": {
+        "@id": "https://techdoodlez.com/#organization"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Bhopal",
+        "addressRegion": "Madhya Pradesh",
+        "addressCountry": "IN"
+      },
+      "knowsAbout": [
+        "React",
+        "Node.js",
+        "TypeScript",
+        "Supabase",
+        "MongoDB",
+        "AWS",
+        "Three.js"
       ]
     }
   ]
@@ -321,17 +283,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" /></noscript>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Noto+Sans+Devanagari:wght@400;500;600;700;800&amp;display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Noto+Sans+Devanagari:wght@400;500;600;700;800&amp;display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Noto+Sans+Devanagari:wght@400;500;600;700;800&amp;display=swap" /></noscript>
 
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/features.css" />
-  <link rel="stylesheet" href="css/extras.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/features.css" />
+  <link rel="stylesheet" href="/css/extras.css" />
+  <link rel="stylesheet" href="/css/pages.css" />
+  <link rel="stylesheet" href="/css/theme.css" />
 </head>
-<body>
+<body class="page-home">
 
-  <!-- ===== PRELOADER ===== -->
+  <!-- ===== PRELOADER (first visit of the session only) ===== -->
   <div class="preloader" id="preloader">
     <div class="preloader__inner">
       <div class="preloader__logo">
@@ -342,7 +306,9 @@
     </div>
   </div>
 
-  <!-- ===== CUSTOM CURSOR ===== -->
+  <a class="skip-link" href="#top">Skip to content</a>
+
+  <!-- ===== CURSOR + FX ===== -->
   <div class="cursor-dot" id="cursorDot"></div>
   <div class="cursor-ring" id="cursorRing"></div>
   <canvas class="fx-canvas" id="fxCanvas" aria-hidden="true"></canvas>
@@ -354,32 +320,46 @@
     <span class="orb orb--2"></span>
     <span class="orb orb--3"></span>
   </div>
+  <div class="bg-pattern" aria-hidden="true"></div>
   <div class="bg-grain" aria-hidden="true"></div>
 
   <!-- ===== NAVBAR ===== -->
   <header class="nav" id="nav">
     <div class="nav__inner">
-      <a href="#top" class="logo" aria-label="Tech Dollez home">
-        <img src="assets/favicon.svg" alt="Tech Dollez logo" width="34" height="34" />
+      <a href="/" class="logo" aria-label="Tech Dollez home">
+        <img src="/assets/favicon.svg" alt="Tech Dollez logo" width="34" height="34" />
         <span>Tech<b>Dollez</b></span>
       </a>
-      <nav class="nav__links" id="navLinks">
-        <a href="#services">Services</a>
-        <a href="#work">Work</a>
-        <a href="#playground">Playground</a>
-        <a href="#audit">Free Audit</a>
-        <a href="#about">About</a>
-        <a href="#contact" class="nav__mobile-cta">Contact</a>
+      <nav class="nav__links" id="navLinks" aria-label="Main">
+        <a href="/services" data-hi="सर्विसेज़">Services</a>
+        <a href="/work" data-hi="हमारा काम">Work</a>
+        <a href="/playground" data-hi="प्लेग्राउंड">Playground</a>
+        <a href="/audit" data-hi="फ्री ऑडिट">Free Audit</a>
+        <a href="/about" data-hi="हमारे बारे में">About</a>
+        <a href="/contact" data-hi="संपर्क">Contact</a>
+        <div class="nav__mobile-tools">
+          <button class="lang" type="button" aria-label="Switch language"><span class="on">EN</span><span>हि</span></button>
+          <button class="nav__mobile-cz" type="button" data-open-cz><span aria-hidden="true">🎨</span> <span data-hi="वेबसाइट कस्टमाइज़ करें">Customize website</span></button>
+          <a class="nav__mobile-wa" href="https://wa.me/916260993724?text=Hi%20Tech%20Dollez%2C%20I%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener">💬 WhatsApp +91 62609 93724</a>
+        </div>
       </nav>
       <div class="nav__tools">
-        <button class="lang" id="langToggle" aria-label="Switch language"><span class="on">EN</span><span>हि</span></button>
-        <button class="cmdk-btn" id="cmdkBtn" aria-label="Open command menu"><kbd>Ctrl</kbd><kbd>K</kbd></button>
+        <button class="lang lang--bar" type="button" aria-label="Switch language"><span class="on">EN</span><span>हि</span></button>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch to light theme" title="Light / Dark">
+          <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.2M12 19.8V22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M2 12h2.2M19.8 12H22M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+        </button>
+        <button class="icon-btn icon-btn--cz" type="button" data-open-cz aria-label="Customize this website" title="Customize colors, font &amp; theme">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 1 10-10c0 2.8-2.2 3.6-4 3.6h-1.8a1.9 1.9 0 0 0-1.4 3.2c.6.7.4 1.8-.6 2.6-.6.4-1.4.6-2.2.6z"/><circle cx="7.5" cy="11" r="1.3" fill="currentColor"/><circle cx="10.5" cy="7" r="1.3" fill="currentColor"/><circle cx="15.5" cy="7.5" r="1.3" fill="currentColor"/></svg>
+          <i class="icon-btn__dot" aria-hidden="true"></i>
+        </button>
+        <button class="cmdk-btn" id="cmdkBtn" type="button" aria-label="Open command menu"><kbd>Ctrl</kbd><kbd>K</kbd></button>
       </div>
       <a href="https://wa.me/916260993724?text=Hi%20Tech%20Dollez%2C%20I%20want%20to%20discuss%20a%20project." target="_blank" rel="noopener" class="btn btn--glass btn--sm magnetic nav__cta">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6zm5.4-7.3c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5c0-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg>
-        Let's Talk
+        <span data-hi="बात करें">Let's Talk</span>
       </a>
-      <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+      <button class="nav__burger" id="navBurger" type="button" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span>
       </button>
     </div>
@@ -387,7 +367,6 @@
 
   <main id="top">
 
-    <!-- ===== HERO ===== -->
     <section class="hero" id="hero">
       <canvas id="heroCanvas" class="hero__canvas" aria-hidden="true"></canvas>
       <div class="hero__fallback" aria-hidden="true"></div>
@@ -409,11 +388,11 @@
           fast, beautiful and engineered to grow your business.
         </p>
         <div class="hero__ctas reveal-up">
-          <a href="#contact" class="btn btn--primary magnetic">
+          <a href="/contact" class="btn btn--primary magnetic">
             <span>Start Your Project</span>
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
-          <a href="#services" class="btn btn--ghost magnetic">Explore Services</a>
+          <a href="/services" class="btn btn--ghost magnetic">Explore Services</a>
         </div>
       </div>
 
@@ -423,7 +402,6 @@
       </div>
     </section>
 
-    <!-- ===== MARQUEE ===== -->
     <section class="marquee" aria-label="What we do">
       <div class="marquee__track">
         <div class="marquee__group">
@@ -447,31 +425,58 @@
       </div>
     </section>
 
-    <section class="marquee marquee--alt" aria-hidden="true">
-      <div class="marquee__track marquee__track--rev">
-        <div class="marquee__group">
-          <span>React</span><i>●</i><span>Node.js</span><i>●</i><span>Three.js</span><i>●</i><span>Flutter</span><i>●</i>
-          <span>MongoDB</span><i>●</i><span>Supabase</span><i>●</i><span>AWS</span><i>●</i><span>Next.js</span><i>●</i>
+    <section class="section teaser" id="playground-teaser">
+      <div class="container teaser__grid">
+        <div class="teaser__text">
+          <p class="eyebrow" data-hi="प्लेग्राउंड">Playground</p>
+          <h2 class="section__title" data-hi="अपनी वेबसाइट डिज़ाइन करें।<br><span class=&quot;grad-text&quot;>लाइव। अभी।</span>">Design your website.<br><span class="grad-text">Live. Right now.</span></h2>
+          <p class="section__desc" data-hi="अपनी इंडस्ट्री, स्टाइल, कलर और फ़ॉन्ट चुनें — और देखिए आपकी वेबसाइट सेकंडों में बनती है। पसंद आई? हम इसे असली में बना देंगे।">Pick your industry, style, colors and font — and watch your website build itself in seconds. Love it? We'll make it real.</p>
+          <ol class="teaser__steps">
+            <li><b>1</b><span data-hi="स्टाइल चुनें">Pick a style</span></li>
+            <li><b>2</b><span data-hi="कलर और फ़ॉन्ट">Colors &amp; font</span></li>
+            <li><b>3</b><span data-hi="WhatsApp पर भेजें">Send on WhatsApp</span></li>
+          </ol>
+          <div class="teaser__ctas">
+            <a class="btn btn--primary magnetic" href="/playground"><span data-hi="प्लेग्राउंड खोलें">Open Playground</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+            <a class="btn btn--ghost magnetic" href="/playground?surprise=1"><span data-hi="🎲 सरप्राइज़ करो">🎲 Surprise me</span></a>
+          </div>
         </div>
-        <div class="marquee__group">
-          <span>React</span><i>●</i><span>Node.js</span><i>●</i><span>Three.js</span><i>●</i><span>Flutter</span><i>●</i>
-          <span>MongoDB</span><i>●</i><span>Supabase</span><i>●</i><span>AWS</span><i>●</i><span>Next.js</span><i>●</i>
-        </div>
+
+        <a class="teaser__preview" href="/playground" aria-label="Open the live website Playground">
+          <div class="pv-frame">
+            <div class="pv-bar">
+              <span></span><span></span><span></span>
+              <div class="pv-url"><span id="tzUrl">glowstudio</span>.com</div>
+            </div>
+            <div class="pv pv--teaser" id="pvTeaser" data-style="luxury" data-font="classic" data-mode="dark" aria-hidden="true">
+              <div class="pv-nav">
+                <b class="pv-brand"><i></i><span class="pv-name">Glow Studio</span></b>
+                <nav><span>Services</span><span>Gallery</span><span>Prices</span></nav>
+                <span class="pv-btn pv-btn--sm">Contact</span>
+              </div>
+              <div class="pv-hero">
+                <div class="pv-hero__text">
+                  <small class="pv-tag">Book in 30 seconds</small>
+                  <h3>Look your best at <em class="pv-name">Glow Studio</em></h3>
+                  <p>Haircuts, styling, grooming &amp; bridal makeup — by expert stylists.</p>
+                  <div class="pv-ctas"><span class="pv-btn">Book Now</span><span class="pv-btn pv-btn--ghost">See Services</span></div>
+                </div>
+                <div class="pv-art"><i></i><i></i><i></i></div>
+              </div>
+              <div class="pv-cards">
+                <div class="pv-card"><i></i><b>Expert stylists</b><span></span><span></span></div>
+                <div class="pv-card"><i></i><b>Premium products</b><span></span><span></span></div>
+                <div class="pv-card"><i></i><b>Easy booking</b><span></span><span></span></div>
+              </div>
+            </div>
+          </div>
+          <span class="teaser__badge"><i></i><span data-hi="लाइव प्रीव्यू · अपने आप बदलता है">Live preview · changes by itself</span></span>
+        </a>
       </div>
     </section>
 
-    <!-- ===== STATEMENT (scroll word reveal) ===== -->
-    <section class="statement" id="statement">
-      <div class="statement__wrap">
-        <p class="eyebrow">Who we are</p>
-        <p class="statement__text" id="statementText">
-          Every great business deserves a digital presence that feels as good as it looks.
-          We turn ideas into websites, apps and software that are fast, flawless and unforgettable.
-        </p>
-      </div>
-    </section>
-
-    <!-- ===== SERVICES ===== -->
     <section class="section services" id="services">
       <div class="container">
         <div class="section__head">
@@ -489,6 +494,7 @@
             <h3>Website Design</h3>
             <p>Pixel-perfect, conversion-focused designs with motion, 3D and a look that makes your brand stand apart.</p>
             <ul class="card__tags"><li>Landing Pages</li><li>Business Sites</li><li>Portfolios</li></ul>
+            <a class="card__link" href="/services#website-design" aria-label="Learn more about Website Design"><span data-hi="और जानें">Learn more</span> <span aria-hidden="true">→</span></a>
           </article>
 
           <article class="card tilt" data-color="cyan">
@@ -499,6 +505,7 @@
             <h3>Web Development</h3>
             <p>Lightning-fast, secure and scalable websites and web apps built with modern frameworks.</p>
             <ul class="card__tags"><li>React</li><li>Node.js</li><li>E‑Commerce</li></ul>
+            <a class="card__link" href="/services#web-development" aria-label="Learn more about Web Development"><span data-hi="और जानें">Learn more</span> <span aria-hidden="true">→</span></a>
           </article>
 
           <article class="card tilt" data-color="pink">
@@ -509,6 +516,7 @@
             <h3>App Development</h3>
             <p>Smooth Android &amp; iOS apps with clean interfaces your customers will actually enjoy using.</p>
             <ul class="card__tags"><li>Android</li><li>iOS</li><li>Cross‑platform</li></ul>
+            <a class="card__link" href="/services#app-development" aria-label="Learn more about App Development"><span data-hi="और जानें">Learn more</span> <span aria-hidden="true">→</span></a>
           </article>
 
           <article class="card tilt" data-color="amber">
@@ -519,6 +527,7 @@
             <h3>Custom Software</h3>
             <p>ERPs, CRMs, dashboards and automation tools tailored exactly to how your business runs.</p>
             <ul class="card__tags"><li>ERP / CRM</li><li>Dashboards</li><li>Automation</li></ul>
+            <a class="card__link" href="/services#custom-software" aria-label="Learn more about Custom Software"><span data-hi="और जानें">Learn more</span> <span aria-hidden="true">→</span></a>
           </article>
 
           <article class="card tilt" data-color="green">
@@ -529,6 +538,7 @@
             <h3>Website Redesign</h3>
             <p>Old, slow or outdated site? We rebuild it into a modern, fast, mobile-first experience.</p>
             <ul class="card__tags"><li>Modernize</li><li>Speed‑up</li><li>Mobile‑first</li></ul>
+            <a class="card__link" href="/services#website-redesign" aria-label="Learn more about Website Redesign"><span data-hi="और जानें">Learn more</span> <span aria-hidden="true">→</span></a>
           </article>
 
           <article class="card tilt" data-color="blue">
@@ -539,347 +549,28 @@
             <h3>SEO &amp; Growth</h3>
             <p>Get found on Google with technical SEO, performance tuning and analytics that drive leads.</p>
             <ul class="card__tags"><li>SEO</li><li>Performance</li><li>Analytics</li></ul>
+            <a class="card__link" href="/services#seo" aria-label="Learn more about SEO &amp; Growth"><span data-hi="और जानें">Learn more</span> <span aria-hidden="true">→</span></a>
           </article>
         </div>
+        <div class="section__more">
+          <a href="/services" class="btn btn--ghost magnetic"><span data-hi="सभी सर्विसेज़ देखें">View all services</span> <span aria-hidden="true">→</span></a>
+        </div>
       </div>
     </section>
 
-    <!-- ===== SPOTLIGHT REVEAL ===== -->
-    <section class="spot" id="spot">
-      <div class="spot__stage" id="spotStage">
-        <h2 class="spot__text spot__text--base">Others build websites.<br>We build <em>experiences.</em></h2>
-        <h2 class="spot__text spot__text--lit" aria-hidden="true">Others build websites.<br>We build <em>experiences.</em></h2>
-      </div>
-      <p class="spot__hint"><span>✦</span> Move your cursor to reveal</p>
-    </section>
-
-    <!-- ===== SHOWCASE (Apple-style device reveal) ===== -->
-    <section class="showcase" id="showcase">
-      <div class="showcase__head container">
-        <p class="eyebrow">Showcase</p>
-        <h2 class="section__title">Designed to <span class="grad-text">wow.</span><br>Built to perform.</h2>
-      </div>
-
-      <div class="showcase__stage">
-        <div class="device" id="device">
-          <div class="device__bar">
-            <span></span><span></span><span></span>
-            <div class="device__url">yourbrand.com</div>
-          </div>
-          <div class="device__screen">
-            <aside class="mock-side">
-              <div class="mock-logo"></div>
-              <i class="active"></i><i></i><i></i><i></i><i></i>
-            </aside>
-            <div class="mock-main">
-              <div class="mock-top">
-                <div>
-                  <small>Welcome back</small>
-                  <strong>Business Overview</strong>
-                </div>
-                <div class="mock-avatar"></div>
-              </div>
-              <div class="mock-stats">
-                <div class="mock-stat"><small>Visitors</small><b data-count="48210">0</b><em class="up">+24%</em></div>
-                <div class="mock-stat"><small>Leads</small><b data-count="1284">0</b><em class="up">+18%</em></div>
-                <div class="mock-stat"><small>Orders</small><b data-count="932">0</b><em class="up">+31%</em></div>
-              </div>
-              <div class="mock-chart">
-                <svg viewBox="0 0 400 140" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#7c5cff" stop-opacity=".55"/>
-                      <stop offset="100%" stop-color="#7c5cff" stop-opacity="0"/>
-                    </linearGradient>
-                    <linearGradient id="chartLine" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0%" stop-color="#00d4ff"/>
-                      <stop offset="50%" stop-color="#7c5cff"/>
-                      <stop offset="100%" stop-color="#ff3d9a"/>
-                    </linearGradient>
-                  </defs>
-                  <path class="chart-area" d="M0 110 C40 100 60 80 100 85 S160 60 200 62 S260 30 300 38 S360 12 400 16 L400 140 L0 140Z" fill="url(#chartFill)"/>
-                  <path class="chart-line" d="M0 110 C40 100 60 80 100 85 S160 60 200 62 S260 30 300 38 S360 12 400 16" fill="none" stroke="url(#chartLine)" stroke-width="3" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <div class="mock-rows">
-                <div class="mock-row"><span></span><i style="width:70%"></i></div>
-                <div class="mock-row"><span></span><i style="width:52%"></i></div>
-                <div class="mock-row"><span></span><i style="width:84%"></i></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="phone" id="phone">
-          <div class="phone__notch"></div>
-          <div class="phone__screen">
-            <div class="ph-head"><small>Hello 👋</small><strong>Your App</strong></div>
-            <div class="ph-card ph-card--grad"><small>Balance</small><b>₹ 2,48,500</b></div>
-            <div class="ph-grid"><i></i><i></i><i></i><i></i></div>
-            <div class="ph-list"><span></span><span></span><span></span></div>
-          </div>
-        </div>
-      </div>
-
+    <section class="section work work--home" id="featured-work">
       <div class="container">
-        <div class="features">
-          <div class="feature reveal-up"><b>3D &amp; Motion</b><p>Immersive animations that feel alive — not templates.</p></div>
-          <div class="feature reveal-up"><b>Mobile‑first</b><p>Flawless on every phone, tablet and desktop screen.</p></div>
-          <div class="feature reveal-up"><b>Blazing fast</b><p>Optimised code and assets for instant loading.</p></div>
-          <div class="feature reveal-up"><b>Secure</b><p>Best-practice security, SSL and clean architecture.</p></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== LIVE PLAYGROUND ===== -->
-    <section class="section builder" id="playground">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Playground</p>
-          <h2 class="section__title">Design your website.<br><span class="grad-text">Live. Right now.</span></h2>
-          <p class="section__desc">Pick a style, color and font — watch your website transform instantly. Love it? We'll build it for real.</p>
-        </div>
-
-        <div class="builder__grid">
-          <div class="builder__controls">
-            <div class="ctrl ctrl--full">
-              <span class="ctrl__label">Start from your industry</span>
-              <div class="presets" id="presets">
-                <button type="button" data-preset="salon">💈 Salon</button>
-                <button type="button" data-preset="restaurant">🍽️ Restaurant</button>
-                <button type="button" data-preset="clinic">🩺 Clinic</button>
-                <button type="button" data-preset="college">🎓 College</button>
-                <button type="button" data-preset="shop">🛍️ Shop</button>
-                <button type="button" data-preset="startup">🚀 Startup</button>
-              </div>
-            </div>
-            <div class="ctrl">
-              <label class="ctrl__label" for="bName">Your business name</label>
-              <input id="bName" class="ctrl__input" maxlength="22" value="Your Brand" autocomplete="off" />
-            </div>
-            <div class="ctrl">
-              <span class="ctrl__label">Style</span>
-              <div class="seg" data-ctrl="style">
-                <button type="button" class="active" data-v="neon">Neon</button>
-                <button type="button" data-v="minimal">Minimal</button>
-                <button type="button" data-v="bold">Bold</button>
-                <button type="button" data-v="luxury">Luxury</button>
-              </div>
-            </div>
-            <div class="ctrl">
-              <span class="ctrl__label">Accent color</span>
-              <div class="swatches" data-ctrl="accent">
-                <button type="button" class="active" data-v="#7c5cff" style="--s:#7c5cff" aria-label="Violet"></button>
-                <button type="button" data-v="#00d4ff" style="--s:#00d4ff" aria-label="Cyan"></button>
-                <button type="button" data-v="#ff3d9a" style="--s:#ff3d9a" aria-label="Pink"></button>
-                <button type="button" data-v="#ffb547" style="--s:#ffb547" aria-label="Gold"></button>
-                <button type="button" data-v="#22e3a5" style="--s:#22e3a5" aria-label="Green"></button>
-                <button type="button" data-v="#ff5a4e" style="--s:#ff5a4e" aria-label="Red"></button>
-              </div>
-            </div>
-            <div class="ctrl">
-              <span class="ctrl__label">Font</span>
-              <div class="seg" data-ctrl="font">
-                <button type="button" class="active" data-v="modern">Modern</button>
-                <button type="button" data-v="classic">Classic</button>
-                <button type="button" data-v="tech">Tech</button>
-              </div>
-            </div>
-            <div class="ctrl ctrl--row">
-              <span class="ctrl__label">Mode</span>
-              <button type="button" class="toggle" id="bMode" aria-pressed="false" aria-label="Toggle light mode">
-                <span>Dark</span><span>Light</span><i></i>
-              </button>
-            </div>
-            <div class="ctrl">
-              <label class="ctrl__label" for="bRadius"><span class="rl">Corner roundness</span> <b id="bRadiusVal">14px</b></label>
-              <input type="range" id="bRadius" min="0" max="30" value="14" class="range" />
-            </div>
-            <div class="builder__actions">
-              <button type="button" class="btn btn--ghost btn--sm" id="bRandom">🎲 Surprise me</button>
-              <a class="btn btn--primary btn--sm" id="bOrder" href="https://wa.me/916260993724" target="_blank" rel="noopener">Build this for me</a>
-            </div>
-          </div>
-
-          <div class="builder__preview">
-            <div class="pv-frame">
-              <div class="pv-bar">
-                <span></span><span></span><span></span>
-                <div class="pv-url"><span id="pvUrl">yourbrand</span>.com</div>
-              </div>
-              <div class="pv" id="pv" data-style="neon" data-font="modern" data-mode="dark">
-                <div class="pv-nav">
-                  <b class="pv-brand"><i></i><span class="pv-name">Your Brand</span></b>
-                  <nav><span>Home</span><span>Services</span><span>About</span></nav>
-                  <span class="pv-btn pv-btn--sm">Contact</span>
-                </div>
-                <div class="pv-hero">
-                  <div class="pv-hero__text">
-                    <small class="pv-tag">New · Now online</small>
-                    <h3>Grow your business with <em class="pv-name">Your Brand</em></h3>
-                    <p>Beautiful, fast and built to turn visitors into customers.</p>
-                    <div class="pv-ctas"><span class="pv-btn">Get Started</span><span class="pv-btn pv-btn--ghost">Learn more</span></div>
-                  </div>
-                  <div class="pv-art"><i></i><i></i><i></i></div>
-                </div>
-                <div class="pv-cards">
-                  <div class="pv-card"><i></i><b>Lightning fast</b><span></span><span></span></div>
-                  <div class="pv-card"><i></i><b>Mobile ready</b><span></span><span></span></div>
-                  <div class="pv-card"><i></i><b>Secure</b><span></span><span></span></div>
-                </div>
-              </div>
-            </div>
-            <p class="builder__note">Live preview — every change updates instantly.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== OUR WORK ===== -->
-    <section class="section work" id="work">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Our Work</p>
-          <h2 class="section__title">Real projects.<br><span class="grad-text">Real businesses.</span></h2>
-          <p class="section__desc">ERPs, hospital tools, college websites, apps — built and running for real people every day. Plus concept designs that show what we can build for you.</p>
-        </div>
-        <div class="work__filters" id="workFilters" role="group" aria-label="Filter projects">
-          <button type="button" class="active" data-f="all">All</button>
-          <button type="button" data-f="web">Websites</button>
-          <button type="button" data-f="software">Software &amp; ERP</button>
-          <button type="button" data-f="concept">Concepts</button>
-          <button type="button" data-f="lab">Labs</button>
-        </div>
-        <div class="work__grid" id="workGrid"></div>
-      </div>
-    </section>
-
-    <!-- ===== FEATURED ERP ===== -->
-    <section class="section erp" id="erp">
-      <div class="container">
-        <div class="erp__head">
+        <div class="section__head section__head--split">
           <div>
-            <p class="eyebrow">Featured Build</p>
-            <h2 class="section__title">PrintX <span class="grad-text">ERP.</span></h2>
-            <p class="section__desc">A complete order-to-delivery system for a B2B custom printing business — five role-based dashboards, live in production and used every single day.</p>
-            <div class="erp__chips">
-              <span>React</span><span>TypeScript</span><span>Supabase</span><span>PostgreSQL</span><span>Vercel</span>
-            </div>
+            <p class="eyebrow" data-hi="हमारा काम">Our Work</p>
+            <h2 class="section__title" data-hi="असली प्रोजेक्ट्स।<br><span class=&quot;grad-text&quot;>असली बिज़नेस।</span>">Real projects.<br><span class="grad-text">Real businesses.</span></h2>
           </div>
-          <ul class="erp__list">
-            <li>Role-based dashboards: Sales, Production, Logistics, Finance, Admin</li>
-            <li>Lead Management CRM with CSV import / export</li>
-            <li>SLA breach tracking &amp; courier tracking links</li>
-            <li>Bulk shipping labels &amp; Bluedart Excel export</li>
-            <li>GST &amp; Indian mobile validation, shipping reconciliation</li>
-            <li>Built-in help desk ticketing for staff</li>
-          </ul>
+          <a href="/work" class="btn btn--ghost magnetic"><span data-hi="सभी प्रोजेक्ट्स देखें">View all projects</span> <span aria-hidden="true">→</span></a>
         </div>
-
-        <div class="erp__app">
-          <aside class="erp__side">
-            <div class="erp__logo"><i></i><b>PrintX</b></div>
-            <button type="button" class="active" data-tab="sales"><span>📈</span>Sales</button>
-            <button type="button" data-tab="production"><span>🏭</span>Production</button>
-            <button type="button" data-tab="logistics"><span>🚚</span>Logistics</button>
-            <button type="button" data-tab="finance"><span>💰</span>Finance</button>
-            <button type="button" data-tab="admin"><span>🛡️</span>Admin</button>
-          </aside>
-          <div class="erp__main" id="erpMain"></div>
-        </div>
-        <p class="erp__note">Interactive demo with sample data — click the tabs.</p>
+        <div class="work__grid" id="workGrid" data-featured="printx-erp,bazarville,oyno,facultypro"></div>
       </div>
     </section>
 
-    <!-- ===== BEFORE / AFTER ===== -->
-    <section class="section compare" id="compare">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Redesign</p>
-          <h2 class="section__title">Old site? <span class="grad-text">Drag to transform.</span></h2>
-          <p class="section__desc">From slow, table-based pages to a fast, modern, mobile-first experience. Drag the handle and see the difference.</p>
-        </div>
-        <div class="ba" id="ba" style="--pos:50%">
-          <div class="ba__old">
-            <div class="old">
-              <div class="old__top"><b>ABC Institute</b><span>Estd. 2004 | Affiliated</span></div>
-              <div class="old__marq">★ Welcome to our official website ★ Admissions open ★ Click here for notice ★</div>
-              <table class="old__nav"><tr><td>Home</td><td>About Us</td><td>Courses</td><td>Gallery</td><td>Notice</td><td>Contact</td></tr></table>
-              <div class="old__body">
-                <div class="old__side"><u>» Latest News</u><u>» Download Form</u><u>» Fee Structure</u><u>» Results</u><u>» Photo Gallery</u></div>
-                <div class="old__content">
-                  <div class="old__img">[ image ]</div>
-                  <p><b>About Us :-</b> Our institute is providing quality education since many years. Please visit our campus. For more details click here.</p>
-                  <p class="old__count">Visitor No : 004521</p>
-                </div>
-              </div>
-            </div>
-            <span class="ba__tag">Before</span>
-          </div>
-          <div class="ba__new">
-            <div class="neo">
-              <div class="neo__nav"><b><i></i>ABC Institute</b><span>Programs</span><span>Campus</span><span>Admissions</span><em>Apply now</em></div>
-              <div class="neo__hero">
-                <div>
-                  <small>Admissions 2026 open</small>
-                  <h3>Shape your future <span>with us.</span></h3>
-                  <p>World-class faculty, modern labs and a campus you'll love.</p>
-                  <div class="neo__btns"><em>Apply now</em><span>Virtual tour</span></div>
-                </div>
-                <div class="neo__art"><i></i><i></i></div>
-              </div>
-              <div class="neo__stats"><div><b>20+</b><small>Years</small></div><div><b>95%</b><small>Placement</small></div><div><b>40+</b><small>Faculty</small></div></div>
-            </div>
-            <span class="ba__tag ba__tag--new">After · Tech Dollez</span>
-          </div>
-          <div class="ba__handle" aria-hidden="true"><span>⟷</span></div>
-          <input type="range" class="ba__range" id="baRange" min="0" max="100" value="50" aria-label="Drag to compare before and after" />
-        </div>
-        <p class="erp__note">Illustration of a typical redesign — we do this for colleges, hospitals, shops and businesses.</p>
-      </div>
-    </section>
-
-    <!-- ===== PROCESS (horizontal scroll) ===== -->
-    <section class="process" id="process">
-      <div class="process__pin">
-        <div class="process__intro">
-          <p class="eyebrow">Process</p>
-          <h2 class="section__title">From idea<br>to <span class="grad-text">launch.</span></h2>
-          <p class="section__desc">A clear, transparent process — you always know what's happening next.</p>
-        </div>
-        <div class="process__viewport">
-        <div class="process__track" id="processTrack">
-          <div class="step" style="--c1:#7c5cff;--c2:#00d4ff">
-            <span class="step__num">01</span>
-            <h3>Discover</h3>
-            <p>We understand your business, goals and audience over a quick call or WhatsApp chat.</p>
-          </div>
-          <div class="step" style="--c1:#00d4ff;--c2:#22e3a5">
-            <span class="step__num">02</span>
-            <h3>Design</h3>
-            <p>Premium UI concepts, colors, typography and motion — approved by you before a single line of code.</p>
-          </div>
-          <div class="step" style="--c1:#ff3d9a;--c2:#7c5cff">
-            <span class="step__num">03</span>
-            <h3>Develop</h3>
-            <p>Clean, fast, scalable code with regular previews so you watch your product come alive.</p>
-          </div>
-          <div class="step" style="--c1:#ffb547;--c2:#ff3d9a">
-            <span class="step__num">04</span>
-            <h3>Launch</h3>
-            <p>Testing on every device, domain &amp; hosting setup, and a smooth go-live.</p>
-          </div>
-          <div class="step" style="--c1:#22e3a5;--c2:#00d4ff">
-            <span class="step__num">05</span>
-            <h3>Grow</h3>
-            <p>Ongoing support, updates, SEO and new features as your business grows.</p>
-          </div>
-        </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== BENTO: BUILT DIFFERENT ===== -->
     <section class="section bento-sec" id="why">
       <div class="container">
         <div class="section__head">
@@ -948,137 +639,10 @@
             </div>
           </div>
         </div>
+        <div class="swipe-hint" aria-hidden="true">⟵ ⟶</div>
       </div>
     </section>
 
-    <!-- ===== FREE AUDIT ===== -->
-    <section class="section audit" id="audit">
-      <div class="container">
-        <div class="audit__box">
-          <div class="audit__glow" aria-hidden="true"></div>
-          <div class="section__head">
-            <p class="eyebrow">Free Website Audit</p>
-            <h2 class="section__title">How good is <span class="grad-text">your website?</span></h2>
-            <p class="section__desc">Enter any website and get a real Google Lighthouse report — speed, SEO, accessibility and best practices — in seconds.</p>
-          </div>
-          <form class="audit__form" id="auditForm" novalidate>
-            <div class="audit__input">
-              <span>🔗</span>
-              <input type="text" id="auditUrl" placeholder="yourwebsite.com" autocomplete="url" inputmode="url" />
-              <div class="audit__strat" id="auditStrat">
-                <button type="button" class="active" data-s="mobile">📱 Mobile</button>
-                <button type="button" data-s="desktop">🖥️ Desktop</button>
-              </div>
-            </div>
-            <button type="submit" class="btn btn--primary" id="auditBtn"><span>Run free audit</span></button>
-          </form>
-          <div class="audit__result" id="auditResult" hidden></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== TECH ORBIT ===== -->
-    <section class="section stack">
-      <div class="container stack__inner">
-        <div class="stack__text">
-          <p class="eyebrow">Technology</p>
-          <h2 class="section__title">Modern stack.<br><span class="grad-text">Future‑proof</span> builds.</h2>
-          <p class="section__desc">We pick the right tools for your project — battle-tested technology trusted by the world's best products.</p>
-        </div>
-        <div class="orbit" aria-label="Technologies we use">
-          <div class="orbit__core"><img src="assets/favicon.svg" alt="" /></div>
-          <div class="orbit__ring orbit__ring--1">
-            <span style="--i:0">React</span><span style="--i:1">Node.js</span><span style="--i:2">Next.js</span><span style="--i:3">Tailwind</span>
-          </div>
-          <div class="orbit__ring orbit__ring--2">
-            <span style="--i:0">MongoDB</span><span style="--i:1">Supabase</span><span style="--i:2">AWS</span><span style="--i:3">Flutter</span><span style="--i:4">Three.js</span><span style="--i:5">TypeScript</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== ABOUT FOUNDER ===== -->
-    <section class="section about" id="about">
-      <div class="container about__grid">
-        <div class="about__card tilt">
-          <div class="card__glow"></div>
-          <div class="about__avatar"><span>AA</span><i></i></div>
-          <h3>Arjun Ahirwar</h3>
-          <p class="about__role">Founder · Full‑Stack Developer</p>
-          <p class="about__loc">📍 Bhopal, Madhya Pradesh</p>
-          <div class="about__stack"><span>React</span><span>Node.js</span><span>TypeScript</span><span>Supabase</span><span>MongoDB</span><span>AWS</span><span>Three.js</span></div>
-          <a href="https://wa.me/916260993724?text=Hi%20Arjun%2C%20I%20saw%20Tech%20Dollez%20and%20want%20to%20talk." class="btn btn--primary btn--block" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6z"/></svg><span>Talk to Arjun</span></a>
-        </div>
-        <div class="about__text">
-          <p class="eyebrow">The person behind it</p>
-          <h2 class="section__title">Hi, I'm Arjun. <span class="grad-text">I build things that work.</span></h2>
-          <p class="section__desc">I'm a full‑stack developer and B.Tech CSE student from Bhopal. I don't just make websites look good — I build the systems behind real businesses: an ERP that runs a printing company's orders end to end, analytics dashboards for a hospital, and modern websites for colleges, salons and startups.</p>
-          <p class="section__desc">When you work with Tech Dollez, you talk directly to the developer writing your code. No middlemen, no templates, no excuses.</p>
-          <div class="about__timeline">
-            <div><b>ERP &amp; Software</b><span>Order flow, CRM, logistics, finance — built for daily business use.</span></div>
-            <div><b>Healthcare &amp; Education</b><span>Hospital dashboards, faculty systems and college website redesigns.</span></div>
-            <div><b>Websites &amp; Apps</b><span>Premium animated websites and app marketing sites for brands.</span></div>
-            <div><b>Tech Dollez</b><span>Bringing all of it together as one premium digital studio.</span></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== PLANS ===== -->
-    <section class="section plans" id="plans">
-      <div class="container">
-        <div class="section__head">
-          <p class="eyebrow">Plans</p>
-          <h2 class="section__title">Pick your <span class="grad-text">starting point.</span></h2>
-          <p class="section__desc">Every project is custom — tell us what you need and get a clear quote on WhatsApp.</p>
-        </div>
-        <div class="plans__grid">
-          <div class="plan tilt">
-            <div class="card__glow"></div>
-            <p class="plan__name">Starter</p>
-            <h3>Launch Site</h3>
-            <p class="plan__desc">Perfect for shops, freelancers and new brands.</p>
-            <ul>
-              <li>Up to 5 premium pages</li>
-              <li>Mobile‑responsive design</li>
-              <li>WhatsApp &amp; call buttons</li>
-              <li>Basic SEO setup</li>
-            </ul>
-            <a href="#contact" class="btn btn--ghost btn--block" data-plan="Starter">Get Quote</a>
-          </div>
-          <div class="plan plan--hot tilt">
-            <div class="card__glow"></div>
-            <span class="plan__badge">Most Popular</span>
-            <p class="plan__name">Business</p>
-            <h3>Growth Website</h3>
-            <p class="plan__desc">For businesses ready to stand out and get leads.</p>
-            <ul>
-              <li>Custom premium design + animations</li>
-              <li>Admin panel / CMS</li>
-              <li>Lead forms &amp; integrations</li>
-              <li>Speed &amp; SEO optimisation</li>
-              <li>Domain &amp; hosting setup</li>
-            </ul>
-            <a href="#contact" class="btn btn--primary btn--block" data-plan="Business">Get Quote</a>
-          </div>
-          <div class="plan tilt">
-            <div class="card__glow"></div>
-            <p class="plan__name">Custom</p>
-            <h3>Apps &amp; Software</h3>
-            <p class="plan__desc">Mobile apps, ERPs, dashboards and SaaS products.</p>
-            <ul>
-              <li>Android / iOS apps</li>
-              <li>Custom software &amp; ERP</li>
-              <li>APIs &amp; database design</li>
-              <li>Ongoing maintenance</li>
-            </ul>
-            <a href="#contact" class="btn btn--ghost btn--block" data-plan="Custom">Get Quote</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== FREE CONCEPT BAND ===== -->
     <section class="band">
       <div class="container">
         <div class="band__inner">
@@ -1092,155 +656,6 @@
         </div>
       </div>
     </section>
-
-    <!-- ===== FAQ ===== -->
-    <section class="section faq" id="faq">
-      <div class="container faq__inner">
-        <div class="section__head section__head--left">
-          <p class="eyebrow">FAQ</p>
-          <h2 class="section__title">Questions?<br><span class="grad-text">Answered.</span></h2>
-        </div>
-        <div class="faq__list">
-          <details class="faq__item">
-            <summary>What is Tech Dollez?<span class="faq__icon"></span></summary>
-            <p>Tech Dollez is a digital studio based in Bhopal, Madhya Pradesh, founded by Arjun Ahirwar. We design and develop websites, mobile apps, custom software and ERPs, and redesign old websites for businesses across India.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Do you work with clients outside Bhopal?<span class="faq__icon"></span></summary>
-            <p>Yes. We're based in Bhopal but work with businesses all over India — everything from the first call to the final launch can happen online over WhatsApp and video calls.</p>
-          </details>
-          <details class="faq__item">
-            <summary>How long does a website take?<span class="faq__icon"></span></summary>
-            <p>A standard business website usually takes 1–3 weeks depending on pages and features. Apps and custom software are planned in milestones — you'll get a clear timeline before we start.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Can you redesign my existing website?<span class="faq__icon"></span></summary>
-            <p>Yes. We modernise the design, speed it up, make it fully mobile-friendly and keep your content and SEO intact.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Do you provide domain and hosting?<span class="faq__icon"></span></summary>
-            <p>We help you buy and set up your domain, hosting and business email so everything is ready to go live.</p>
-          </details>
-          <details class="faq__item">
-            <summary>Will I be able to update content myself?<span class="faq__icon"></span></summary>
-            <p>If you need it, we add a simple admin panel so you can update text, images and products without touching code.</p>
-          </details>
-          <details class="faq__item">
-            <summary>What about support after launch?<span class="faq__icon"></span></summary>
-            <p>We stay with you after launch — fixes, updates and new features are just a WhatsApp message away.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== CONTACT ===== -->
-    <section class="section contact" id="contact">
-      <div class="container">
-        <div class="contact__box">
-          <div class="contact__glow" aria-hidden="true"></div>
-          <div class="contact__info">
-            <p class="eyebrow">Contact</p>
-            <h2 class="section__title">Let's build<br><span class="grad-text grad-anim">something great.</span></h2>
-            <p class="section__desc">Tell us about your project — we reply fast on WhatsApp.</p>
-
-            <div class="contact__person">
-              <div class="contact__avatar">AA</div>
-              <div>
-                <strong>Arjun Ahirwar</strong>
-                <span>Founder &amp; Lead Developer</span>
-              </div>
-            </div>
-
-            <div class="contact__links">
-              <a href="https://wa.me/916260993724" target="_blank" rel="noopener" class="contact__link">
-                <span class="contact__link-icon wa">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6zm5.4-7.3c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5c0-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg>
-                </span>
-                <span><small>WhatsApp</small><b>+91 62609 93724</b></span>
-              </a>
-              <a href="tel:+916260993724" class="contact__link">
-                <span class="contact__link-icon call">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
-                </span>
-                <span><small>Call</small><b>+91 62609 93724</b></span>
-              </a>
-            </div>
-          </div>
-
-          <form class="contact__form planner" id="planner" novalidate>
-            <div class="planner__top">
-              <span class="planner__label" id="plStepLabel">Step 1 of 3</span>
-              <div class="planner__progress"><i id="plProgress"></i></div>
-            </div>
-
-            <div class="planner__steps">
-              <fieldset class="pl-step active" data-step="1">
-                <legend>What do you need?</legend>
-                <p class="pl-hint">Pick one or more</p>
-                <div class="chips" data-name="services" data-multi="true">
-                  <button type="button" class="chip" data-v="Website">🌐 Website</button>
-                  <button type="button" class="chip" data-v="Mobile App">📱 Mobile App</button>
-                  <button type="button" class="chip" data-v="Custom Software">⚙️ Custom Software</button>
-                  <button type="button" class="chip" data-v="Website Redesign">♻️ Redesign</button>
-                  <button type="button" class="chip" data-v="E-Commerce Store">🛒 E‑Commerce</button>
-                  <button type="button" class="chip" data-v="SEO">🚀 SEO</button>
-                  <button type="button" class="chip" data-v="UI/UX Design">🎨 UI / UX</button>
-                  <button type="button" class="chip" data-v="Not sure yet">🤔 Not sure yet</button>
-                </div>
-              </fieldset>
-
-              <fieldset class="pl-step" data-step="2">
-                <legend>Must-have features</legend>
-                <p class="pl-hint">Optional — pick what you need</p>
-                <div class="chips" data-name="features" data-multi="true">
-                  <button type="button" class="chip" data-v="Admin Panel">Admin Panel</button>
-                  <button type="button" class="chip" data-v="Online Payments">Online Payments</button>
-                  <button type="button" class="chip" data-v="WhatsApp Integration">WhatsApp</button>
-                  <button type="button" class="chip" data-v="Booking System">Booking</button>
-                  <button type="button" class="chip" data-v="Login / Accounts">Login / Accounts</button>
-                  <button type="button" class="chip" data-v="Blog">Blog</button>
-                  <button type="button" class="chip" data-v="3D / Animations">3D / Animations</button>
-                  <button type="button" class="chip" data-v="Analytics">Analytics</button>
-                </div>
-                <p class="pl-sub">Timeline</p>
-                <div class="chips" data-name="timeline">
-                  <button type="button" class="chip" data-v="ASAP">⚡ ASAP</button>
-                  <button type="button" class="chip" data-v="Within a month">📅 Within a month</button>
-                  <button type="button" class="chip" data-v="Flexible">🌿 Flexible</button>
-                </div>
-              </fieldset>
-
-              <fieldset class="pl-step" data-step="3">
-                <legend>Almost done!</legend>
-                <div class="field">
-                  <input type="text" id="fName" name="name" placeholder=" " autocomplete="name" />
-                  <label for="fName">Your name</label>
-                </div>
-                <div class="field">
-                  <input type="tel" id="fPhone" name="phone" placeholder=" " autocomplete="tel" />
-                  <label for="fPhone">Phone (optional)</label>
-                </div>
-                <div class="field">
-                  <textarea id="fMsg" name="message" rows="3" placeholder=" "></textarea>
-                  <label for="fMsg">Anything else? (optional)</label>
-                </div>
-                <div class="pl-summary" id="plSummary"></div>
-              </fieldset>
-            </div>
-
-            <div class="planner__nav">
-              <button type="button" class="btn btn--ghost btn--sm" id="plBack" hidden>← Back</button>
-              <button type="button" class="btn btn--primary btn--sm" id="plNext">Next →</button>
-              <button type="submit" class="btn btn--primary btn--sm" id="plSend" hidden>
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6z"/></svg>
-                <span>Send on WhatsApp</span>
-              </button>
-            </div>
-            <p class="form__note" id="formNote">Your brief opens in WhatsApp, ready to send.</p>
-          </form>
-        </div>
-      </div>
-    </section>
   </main>
 
   <!-- ===== FOOTER ===== -->
@@ -1248,26 +663,28 @@
     <div class="container">
       <div class="footer__big grad-text">TECH DOLLEZ</div>
       <div class="footer__seo">
-        <p><b>Tech Dollez</b> is a website design and app development company in <b>Bhopal, Madhya Pradesh</b>. We build premium business websites, Android &amp; iOS apps, custom software, ERP and CRM systems, e‑commerce stores and website redesigns — with SEO, hosting and ongoing support — for clients across India.</p>
+        <p data-hi="<b>Tech Dollez</b> <b>भोपाल, मध्य प्रदेश</b> की एक वेबसाइट डिज़ाइन और ऐप डेवलपमेंट कंपनी है। हम पूरे भारत के क्लाइंट्स के लिए प्रीमियम बिज़नेस वेबसाइट, Android और iOS ऐप, कस्टम सॉफ़्टवेयर, ERP और CRM सिस्टम, ई-कॉमर्स स्टोर और वेबसाइट रीडिज़ाइन बनाते हैं — SEO, होस्टिंग और लगातार सपोर्ट के साथ।"><b>Tech Dollez</b> is a website design and app development company in <b>Bhopal, Madhya Pradesh</b>. We build premium business websites, Android &amp; iOS apps, custom software, ERP and CRM systems, e‑commerce stores and website redesigns — with SEO, hosting and ongoing support — for clients across India.</p>
         <nav class="footer__services" aria-label="Services">
-          <a href="#services">Website Design in Bhopal</a>
-          <a href="#services">Web Development</a>
-          <a href="#services">App Development</a>
-          <a href="#services">Custom Software &amp; ERP</a>
-          <a href="#compare">Website Redesign</a>
-          <a href="#audit">Free Website Audit</a>
+          <a href="/services#website-design" data-hi="भोपाल में वेबसाइट डिज़ाइन">Website Design in Bhopal</a>
+          <a href="/services#web-development" data-hi="वेब डेवलपमेंट">Web Development</a>
+          <a href="/services#app-development" data-hi="ऐप डेवलपमेंट">App Development</a>
+          <a href="/services#custom-software" data-hi="कस्टम सॉफ़्टवेयर और ERP">Custom Software &amp; ERP</a>
+          <a href="/services#website-redesign" data-hi="वेबसाइट रीडिज़ाइन">Website Redesign</a>
+          <a href="/audit" data-hi="फ्री वेबसाइट ऑडिट">Free Website Audit</a>
         </nav>
       </div>
       <div class="footer__row">
-        <a href="#top" class="logo">
-          <img src="assets/favicon.svg" alt="Tech Dollez logo" width="28" height="28" loading="lazy" />
+        <a href="/" class="logo">
+          <img src="/assets/favicon.svg" alt="Tech Dollez logo" width="28" height="28" loading="lazy" />
           <span>Tech<b>Dollez</b></span>
         </a>
-        <nav class="footer__links">
-          <a href="#services">Services</a>
-          <a href="#process">Process</a>
-          <a href="#plans">Plans</a>
-          <a href="#contact">Contact</a>
+        <nav class="footer__links" aria-label="Footer">
+          <a href="/services" data-hi="सर्विसेज़">Services</a>
+          <a href="/work" data-hi="काम">Work</a>
+          <a href="/playground" data-hi="प्लेग्राउंड">Playground</a>
+          <a href="/audit" data-hi="ऑडिट">Audit</a>
+          <a href="/about" data-hi="हमारे बारे में">About</a>
+          <a href="/contact" data-hi="संपर्क">Contact</a>
         </nav>
         <p class="footer__copy">© <span id="year"></span> Tech Dollez · Made by Arjun Ahirwar</p>
       </div>
@@ -1336,14 +753,94 @@
     <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.3 23.7l6.2-1.6a11.8 11.8 0 0 0 5.6 1.4h.1A11.8 11.8 0 0 0 20.5 3.5zM12.2 21.4a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4a9.8 9.8 0 1 1 8.3 4.6zm5.4-7.3c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2c-.2-.3 0-.5.1-.6l.4-.5.3-.5v-.5c0-.1-.7-1.7-1-2.3-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.4z"/></svg>
   </a>
 
+  <!-- ===== LIVE CUSTOMIZER ===== -->
+  <div class="cz" id="cz" hidden>
+    <div class="cz__backdrop" data-close></div>
+    <aside class="cz__panel" role="dialog" aria-modal="true" aria-labelledby="czTitle" data-lenis-prevent>
+      <div class="cz__head">
+        <div>
+          <b id="czTitle" data-hi="वेबसाइट कस्टमाइज़ करें">Customize this website</b>
+          <small data-hi="कलर, फ़ॉन्ट और थीम बदलें — तुरंत लाइव।">Change colors, font &amp; theme — live.</small>
+        </div>
+        <button class="cz__x" type="button" data-close aria-label="Close">✕</button>
+      </div>
+
+      <div class="cz__body">
+        <section class="cz__sec">
+          <p class="cz__label" data-hi="थीम">Theme</p>
+          <div class="cz__seg" data-pref="theme">
+            <button type="button" data-v="dark"><span aria-hidden="true">🌙</span> <span data-hi="डार्क">Dark</span></button>
+            <button type="button" data-v="light"><span aria-hidden="true">☀️</span> <span data-hi="लाइट">Light</span></button>
+            <button type="button" data-v="auto"><span aria-hidden="true">🖥️</span> <span data-hi="ऑटो">Auto</span></button>
+          </div>
+        </section>
+
+        <section class="cz__sec">
+          <p class="cz__label" data-hi="कलर पैलेट">Color palette</p>
+          <div class="cz__palettes" data-pref="palette">
+            <button type="button" data-v="aurora"><i style="--p:linear-gradient(100deg,#00d4ff,#7c5cff,#ff3d9a,#ffb547)"></i><span>Aurora</span></button>
+            <button type="button" data-v="ocean"><i style="--p:linear-gradient(100deg,#22d3ee,#3b82f6,#818cf8,#2dd4bf)"></i><span>Ocean</span></button>
+            <button type="button" data-v="sunset"><i style="--p:linear-gradient(100deg,#fbbf24,#f97316,#f43f5e,#ec4899)"></i><span>Sunset</span></button>
+            <button type="button" data-v="forest"><i style="--p:linear-gradient(100deg,#a3e635,#22c55e,#10b981,#2dd4bf)"></i><span>Forest</span></button>
+            <button type="button" data-v="royal"><i style="--p:linear-gradient(100deg,#f5d38a,#8b5cf6,#c084fc,#d4a24c)"></i><span>Royal</span></button>
+            <button type="button" data-v="mono"><i style="--p:linear-gradient(100deg,#e5e7eb,#9ca3af,#d1d5db,#6b7280)"></i><span>Mono</span></button>
+          </div>
+        </section>
+
+        <section class="cz__sec">
+          <p class="cz__label" data-hi="फ़ॉन्ट">Font</p>
+          <div class="cz__fonts" data-pref="font">
+            <button type="button" data-v="modern"><b style="font-family:Sora,sans-serif">Aa</b><span data-hi="मॉडर्न">Modern</span></button>
+            <button type="button" data-v="elegant"><b style="font-family:'Playfair Display',serif">Aa</b><span data-hi="एलिगेंट">Elegant</span></button>
+            <button type="button" data-v="tech"><b style="font-family:'JetBrains Mono',monospace">Aa</b><span data-hi="टेक">Tech</span></button>
+            <button type="button" data-v="friendly"><b style="font-family:Poppins,sans-serif">Aa</b><span data-hi="फ़्रेंडली">Friendly</span></button>
+            <button type="button" data-v="futuristic"><b style="font-family:'Space Grotesk',sans-serif">Aa</b><span data-hi="फ़्यूचरिस्टिक">Futuristic</span></button>
+          </div>
+        </section>
+
+        <section class="cz__sec">
+          <p class="cz__label" data-hi="बैकग्राउंड ग्राफ़िक्स">Background graphics</p>
+          <div class="cz__bgs" data-pref="bg">
+            <button type="button" data-v="aurora"><i class="cz-bg cz-bg--aurora"></i><span data-hi="ऑरोरा">Aurora</span></button>
+            <button type="button" data-v="grid"><i class="cz-bg cz-bg--grid"></i><span data-hi="ग्रिड">Grid</span></button>
+            <button type="button" data-v="dots"><i class="cz-bg cz-bg--dots"></i><span data-hi="डॉट्स">Dots</span></button>
+            <button type="button" data-v="clean"><i class="cz-bg cz-bg--clean"></i><span data-hi="सादा">Clean</span></button>
+          </div>
+        </section>
+
+        <section class="cz__sec">
+          <p class="cz__label" data-hi="इफ़ेक्ट्स और एनिमेशन">Effects &amp; animation</p>
+          <div class="cz__seg" data-pref="fx">
+            <button type="button" data-v="full"><span aria-hidden="true">✨</span> <span data-hi="फ़ुल">Full</span></button>
+            <button type="button" data-v="lite"><span aria-hidden="true">🍃</span> <span data-hi="लाइट (तेज़)">Lite (faster)</span></button>
+          </div>
+          <p class="cz__hint" data-hi="लाइट मोड 3D, कर्सर ट्रेल और भारी इफ़ेक्ट्स बंद करता है — पुराने फ़ोन के लिए बढ़िया।">Lite turns off 3D, cursor trail and heavy effects — great for older phones.</p>
+        </section>
+
+        <section class="cz__sec">
+          <p class="cz__label" data-hi="भाषा">Language</p>
+          <div class="cz__seg" data-pref="lang">
+            <button type="button" data-v="en">English</button>
+            <button type="button" data-v="hi">हिंदी</button>
+          </div>
+        </section>
+      </div>
+
+      <div class="cz__foot">
+        <button type="button" class="btn btn--ghost btn--sm" id="czReset" data-hi="रीसेट">Reset</button>
+        <button type="button" class="btn btn--primary btn--sm" data-close><span data-hi="हो गया">Done</span></button>
+      </div>
+    </aside>
+  </div>
+
   <!-- ===== SCRIPTS (deferred — page paints first) ===== -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-  <script defer src="js/main.js"></script>
-  <script defer src="js/features.js"></script>
-  <script defer src="js/extras.js"></script>
-  <!-- Three.js (600 KB) is loaded lazily by hero3d.js after the page is interactive -->
-  <script defer src="js/hero3d.js"></script>
+  <script defer src="/js/main.js"></script>
+  <script defer src="/js/features.js"></script>
+  <script defer src="/js/extras.js"></script>
+  <script defer src="/js/prefs.js"></script>
+  <script defer src="/js/hero3d.js"></script>
 </body>
 </html>

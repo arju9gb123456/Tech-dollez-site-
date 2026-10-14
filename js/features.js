@@ -72,6 +72,7 @@
     if (finePointer) {
       let lx = 0, ly = 0, hue = 0;
       window.addEventListener('pointermove', (e) => {
+        if (document.documentElement.dataset.fx === 'lite') return;
         const dx = e.clientX - lx, dy = e.clientY - ly;
         const dist = Math.hypot(dx, dy);
         lx = e.clientX; ly = e.clientY;
@@ -86,6 +87,7 @@
     }
 
     function burst(x, y, count = 26) {
+      if (document.documentElement.dataset.fx === 'lite') return;
       for (let i = 0; i < count; i++) {
         const a = (Math.PI * 2 * i) / count + Math.random() * 0.3;
         const sp = 3 + Math.random() * 5;
@@ -301,6 +303,7 @@
     }
     render(false);
     window.__pv = { state, render, nameIn, radiusIn };
+    if (new URLSearchParams(location.search).get('surprise')) setTimeout(() => $('#bRandom').click(), 900);
   }
   window.__scramble = scramble;
   window.__fx = fx;
@@ -514,15 +517,16 @@
       label.textContent = window.__lang === 'hi' ? `स्टेप ${cur} / 3` : `Step ${cur} of 3`;
       if (!note.classList.contains('err')) note.textContent = window.__lang === 'hi' ? 'आपका ब्रीफ़ WhatsApp में खुलेगा, भेजने के लिए तैयार।' : 'Your brief opens in WhatsApp, ready to send.';
     });
-    // plan "Get Quote" buttons preselect services
-    $$('[data-plan]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const map = { Starter: ['Website'], Business: ['Website', 'SEO'], Custom: ['Mobile App', 'Custom Software'] };
-        const want = map[btn.dataset.plan] || [];
-        $$('.chips[data-name="services"] .chip', planner).forEach((c) => c.classList.toggle('on', want.includes(c.dataset.v)));
-        show(1);
-      });
-    });
+    // preselect from the URL: /contact?plan=Business (Plans) or /contact?service=Mobile%20App (Services page)
+    const params = new URLSearchParams(location.search);
+    const PLAN_MAP = { Starter: ['Website'], Business: ['Website', 'SEO'], Custom: ['Mobile App', 'Custom Software'] };
+    const want = PLAN_MAP[params.get('plan')] || (params.get('service') ? [params.get('service')] : []);
+    if (want.length) {
+      $$('.chips[data-name="services"] .chip', planner).forEach((c) => c.classList.toggle('on', want.includes(c.dataset.v)));
+      const plan = params.get('plan');
+      const msgBox = $('#fMsg');
+      if (plan && msgBox && !msgBox.value) msgBox.value = `I'm interested in the ${plan} plan. `;
+    }
   }
 
   /* =======================================================
@@ -550,19 +554,19 @@
      9. ENTRANCE ANIMATIONS (GSAP)
      ======================================================= */
   if (hasGSAP && !reduced) {
-    gsap.from('.bento .tile', {
+    if ($('.bento')) gsap.from('.bento .tile', {
       y: 60, opacity: 0, scale: 0.96, duration: 1.1, stagger: 0.08, ease: 'expo.out', clearProps: 'transform,opacity',
       scrollTrigger: { trigger: '.bento', start: 'top 82%' }
     });
-    gsap.from('.builder__controls', {
+    if ($('.builder__grid')) gsap.from('.builder__controls', {
       x: -60, opacity: 0, duration: 1.2, ease: 'expo.out', clearProps: 'transform,opacity',
       scrollTrigger: { trigger: '.builder__grid', start: 'top 80%' }
     });
-    gsap.from('.builder__preview', {
+    if ($('.builder__grid')) gsap.from('.builder__preview', {
       y: 80, rotateX: 18, opacity: 0, duration: 1.4, ease: 'expo.out', clearProps: 'transform,opacity',
       scrollTrigger: { trigger: '.builder__grid', start: 'top 80%' }
     });
-    gsap.from('.spot__stage', {
+    if ($('.spot')) gsap.from('.spot__stage', {
       scale: 0.85, opacity: 0, duration: 1.4, ease: 'expo.out',
       scrollTrigger: { trigger: '.spot', start: 'top 75%' }
     });

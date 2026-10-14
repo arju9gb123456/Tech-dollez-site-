@@ -1,68 +1,70 @@
 # Tech Dollez — We Build the Digital World
 
-Official website of **Tech Dollez**, a digital studio for website design, web & app development, custom software and website redesign.
+Official website of **Tech Dollez**, a digital studio in Bhopal for website design, web & app development, custom software / ERP and website redesign.
+
+Live: https://techdoodlez.com
+
+## Pages
+
+| URL | What's on it |
+|---|---|
+| `/` | 3D hero, live Playground teaser, services overview, featured projects, "Built different" bento, free-concept offer |
+| `/services` | Services explorer (6 services, tabbed), process, plans, FAQ |
+| `/work` | All projects with filters + case-study popups, interactive PrintX ERP demo, before/after slider |
+| `/playground` | Live website builder (industry presets, style, colors, font, mode) + device showcase |
+| `/audit` | Free website audit (real Google Lighthouse scores) |
+| `/about` | Founder, story, tech stack |
+| `/contact` | 3-step project planner → WhatsApp, call / WhatsApp links |
 
 ## Features
 
-- 3D animated hero (Three.js iridescent orb, particles, mouse + scroll reactive)
-- Cinematic scroll animations (GSAP ScrollTrigger + Lenis smooth scroll)
-- Apple-style device reveal showcase, horizontal-scroll process section
-- 3D tilt + cursor-glow cards, magnetic buttons, custom cursor
-- **Live Website Playground** — visitors pick style, color, font, mode, corners and their business name; the preview site transforms live and "Build this for me" sends the design on WhatsApp
-- **Spotlight reveal** headline that follows the cursor
-- **Bento grid** — live code typing, Lighthouse score rings, live IST clock with online status, responsive screen morph, security scanner, counters
-- **3-step Project Planner** that sends a full brief on WhatsApp
-- Cursor sparkle trail, particle bursts on clicks, text-scramble effects, rotating hero words
-- Shine-sweep hovers, dual marquees, scroll progress bar, back-to-top ring, interactive footer letters
-- **Portfolio** — 9 real projects + 5 clearly-labelled concept designs, with filters, 3D hover cards and case-study popups
-- **PrintX ERP interactive demo** — Sales, Production, Logistics, Finance & Admin tabs
-- **Before / After redesign slider**
-- **Free Website Audit** — real Google PageSpeed (Lighthouse) scores for any URL
-- **Playground industry presets** — Salon, Restaurant, Clinic, College, Shop, Startup
-- **Chat assistant** with instant answers that hands off to WhatsApp
-- **English / हिंदी toggle**, **Ctrl+K command palette**, founder section, free-concept offer, hidden easter egg
-- Floating WhatsApp button, fully responsive, reduced-motion support
+- **Light / dark theme** toggle and a **live customizer** (🎨 in the nav): visitors pick theme, color palette (Aurora, Ocean, Sunset, Forest, Royal, Mono), font, background graphics and effects (Full / Lite). Saved per visitor and applied on every page — the 3D hero follows the chosen colors.
+- **English / हिंदी** for all page content
+- 3D hero (Three.js, lazy-loaded), GSAP scroll animations, Lenis smooth scroll, cross-page view transitions
+- Chat assistant, Ctrl+K command palette, cursor trail, particle bursts, text scramble
+- Phones: compact 2-column grids and swipe rows so pages stay short
+- Preloader only on the first page of a visit
 
-## Performance
+## Editing the site
 
-- Scripts are `defer`red and web fonts load asynchronously, so the page paints immediately
-- Three.js (~600 KB) is lazy-loaded after the page is interactive; a gradient placeholder shows meanwhile
-- Lighter 3D mesh on phones / low-power devices, no heavy blur filters on background orbs
+Pages are built from shared parts so the nav, footer and SEO stay identical everywhere:
+
+```
+_src/partials/   head (SEO + prefs script), nav, footer, overlays, customizer
+_src/sections/   reusable page sections (hero, services, work grid, ...)
+_src/pages/      one file per page: META json + {{> section}} includes
+```
+
+After editing anything in `_src/`, rebuild:
+
+```bash
+python3 _src/build.py
+```
+
+This writes `index.html`, `services.html`, … and `sitemap.xml` in the repo root. Commit those files — Vercel serves them as-is (no build step). `_src/` is excluded from the deploy via `.vercelignore`.
+
+```
+css/style.css     base design          js/main.js      shared: nav, scroll, links, animations
+css/features.css  playground, bento    js/features.js  playground, planner, bento, FX
+css/extras.css    work, ERP, chat ...  js/extras.js    portfolio, ERP, audit, chat, Hindi, Ctrl+K, services tabs
+css/pages.css     multi-page layout    js/prefs.js     theme + live customizer
+css/theme.css     themes, palettes     js/hero3d.js    Three.js hero (home only)
+```
 
 ## SEO
 
-- Title, meta description, canonical (`https://techdoodlez.com/`), Open Graph & Twitter cards with a 1200×630 share image
-- JSON-LD structured data: Organization / ProfessionalService (Bhopal), founder, WebSite, WebPage, FAQPage
-- `robots.txt`, `sitemap.xml`, `site.webmanifest`, app icons and a custom `404.html`
-- Lighthouse (local): SEO 100 · Accessibility 100
+- Per-page title, description, canonical (clean URLs via `vercel.json` → `/services`), Open Graph / Twitter cards, 1200×630 share image
+- JSON-LD on every page: Organization / ProfessionalService (Bhopal), WebSite, WebPage / AboutPage / ContactPage, BreadcrumbList, founder, FAQPage on `/services`
+- `robots.txt`, `sitemap.xml` (all 7 pages), `site.webmanifest`, app icons, custom `404.html`
+- Lighthouse (local): SEO 100 · Accessibility 100 on every page
 
-After going live: verify the site in Google Search Console and submit `https://techdoodlez.com/sitemap.xml`.
-
-## Structure
-
-```
-index.html
-css/style.css
-js/hero3d.js    # Three.js hero scene
-js/main.js      # preloader, scroll animations, core interactions
-js/features.js  # playground, planner, bento widgets, FX, scramble
-css/features.css
-js/extras.js    # portfolio, ERP demo, audit, chat, Hindi, Ctrl+K
-css/extras.css
-assets/favicon.svg
-```
+Submit `https://techdoodlez.com/sitemap.xml` in Google Search Console.
 
 ## Run locally
 
-Open `index.html` in a browser, or serve the folder:
-
 ```bash
-npx serve .
+npx serve .        # clean URLs like /services work out of the box
 ```
-
-## Deploy
-
-Static site — deploy the repo root on Netlify, Vercel or GitHub Pages (no build step).
 
 ## Contact
 
